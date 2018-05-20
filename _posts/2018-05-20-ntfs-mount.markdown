@@ -4,7 +4,7 @@ title:      "使用ntfs-3g 挂载NTFS分区"
 subtitle:   "Linux下挂载NTFS分区"
 date:       2018-05-20
 author:     "kikyoar"
-header-img: "img/post-bg-js-version.jpg"
+header-img: "img/post-bg-linux-version.jpg"
 tags:
     - Linux
 ---
