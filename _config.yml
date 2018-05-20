@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: nokikyoar@gmail.com
 description: "Linux, Hadoop, Shell, Python, 漫画, 阿森纳"
 keyword: "运维，大数据"
-url: "http://huangxuan.me"              # your host, for absolute URL
+url: "http://kikyoar.com"              # your host, for absolute URL
 baseurl: "/kikyoar.github.io"         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
