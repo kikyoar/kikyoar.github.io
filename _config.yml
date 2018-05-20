@@ -5,7 +5,7 @@ header-img: img/home-bg.jpg
 email: nokikyoar@gmail.com
 description: "Linux, Hadoop, Shell, Python, 漫画, 阿森纳"
 keyword: "运维，大数据"
-url: "http://huangxuan.me"              # your host, for absolute URL
+url: "http://kikyoar.com"              # your host, for absolute URL
 baseurl: "/kikyoar.github.io"         # for example, '/blog' if your blog hosted on 'host/blog'
 
 
@@ -68,7 +68,7 @@ ga_domain: huangxuan.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "只是认真的看看书，喝杯茶 <br> 我们阿森纳是不可战胜的"
+sidebar-about-description: "学而时习之  <br> 我们阿森纳是不可战胜的"
 sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
