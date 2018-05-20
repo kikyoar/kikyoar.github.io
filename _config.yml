@@ -1,10 +1,10 @@
 # Site settings
 title: kikyoar
-SEOTitle: 你的博客 | Your Blog
+SEOTitle: 学习笔记 | Notes_Blog
 header-img: img/home-bg.jpg
-email: huxpro@gmail.com
-description: ""
-keyword: ""
+email: nokikyoar@gmail.com
+description: "Linux, Hadoop, Shell, Python, 漫画, 阿森纳"
+keyword: "运维，大数据"
 url: "http://huangxuan.me"              # your host, for absolute URL
 baseurl: "/kikyoar.github.io"         # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -12,11 +12,11 @@ baseurl: "/kikyoar.github.io"         # for example, '/blog' if your blog hosted
 
 # SNS settings
 RSS: false
-weibo_username:     huxpro
-zhihu_username:     huxpro
-github_username:    huxpro
-#twitter_username:  huxpro
-facebook_username:  huxpro
+#weibo_username:     huxpro
+#zhihu_username:     huxpro
+github_username:    kikyoar
+twitter_username:  kikyoar
+#facebook_username:  kikyoar
 
 
 
@@ -68,7 +68,7 @@ ga_domain: huangxuan.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "写写代码，做做设计，看看产品。世界那么大，多玩玩看看。"
+sidebar-about-description: "只是认真的看看书，喝杯茶，看看世界！"
 sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
@@ -84,17 +84,5 @@ friends: [
     {
         title: "Hux Blog",
         href: "http://huangxuan.me"
-    },{
-        title: "Foo",
-        href: "#"
-    },{
-        title: "Bar",
-        href: "#"
-    },{
-        title: "Example Friends",
-        href: "#"
-    },{
-        title: "It helps SEO",
-        href: "#"
     }
 ]
