@@ -9,7 +9,8 @@ tags:
     - Linux
 ---
 
-打开ntfs-3g的下载站点，将最新稳定版下载到CentOS，执行以下命令安装：
+打开ntfs-3g的下载站点，将最新稳定版下载到CentOS，执行以下命令安装：  
+
 **[ntfs-3g-1.2918.tgz](http://down1.chinaunix.net/distfiles/ntfs-3g-1.2918.tgz)**   
 
 > 1、编译安装ntfs-3g:  
