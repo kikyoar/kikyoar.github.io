@@ -68,7 +68,7 @@ ga_domain: huangxuan.me
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "只是认真的看看书，喝杯茶，看看世界！"
+sidebar-about-description: "只是认真的看看书，喝杯茶 <br> 我们阿森纳是不可战胜的"
 sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
