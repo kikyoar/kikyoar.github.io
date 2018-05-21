@@ -9,7 +9,7 @@ tags:
     - Zabbix
 ---
 
-### 提前准备
+# 提前准备
 
 > **设置本地yum源**  
 
@@ -44,7 +44,7 @@ tags:
 	grep SELINUX /etc/selinux/config    #确认是否修改成功  
 	setenforce 0    
 
-## 安装Nginx  
+# 安装Nginx  
 
 下载nginx   
 
@@ -56,7 +56,7 @@ tags:
 	
 不关闭nginx，修改配置文件生效方法 nginx -s reload     
 
-## 安装Mysql  
+# 安装Mysql  
 
 Centos7自带的mysql是mariadb ,我们可以通过如下命令查看 
 
@@ -67,7 +67,7 @@ Centos7自带的mysql是mariadb ,我们可以通过如下命令查看
 	
 **初始化mysql数据库，并配置root用户密码 mysql_secure_installation**  
 
-## 安装PHP  
+# 安装PHP  
 	
 	wget http://cn2.php.net/distributions/php-7.1.11.tar.gz
 	tar zxvf php-7.1.11.tar.gz && cd ./php-7.1.11  
@@ -190,7 +190,7 @@ PHP编译时错误：Don’t know how to define struct flock on this system, set
 	nginx -s reload  
 
 创建测试php文件   
-vi /var/www/html/info.php
+  vi /var/www/html/info.php
 
     <?php
         phpinfo();
@@ -198,12 +198,12 @@ vi /var/www/html/info.php
 
 访问 http://127.0.0.1/info.php    
 
-## 安装zabbix-server
+# 安装zabbix-server
 
 	yum install mysql-devel
 	yum -y install net-snmp-devel libxml2-devel libcurl-deve libevent libevent-devel  
 
-> Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-devel-2.0.21-4.el7.x86_64.rpm     
+Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-devel-2.0.21-4.el7.x86_64.rpm     
 
 	# yum install OpenIPMI
 	# rpm -ivh OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm  
@@ -211,13 +211,13 @@ vi /var/www/html/info.php
 	systemctl enable ipmi
 	rpm -ivh /opt/libevent-devel-2.0.21-4.el7.x86_64.rpm  
 
-> 编译安装zabbix  
+编译安装zabbix  
 
 	./configure --prefix=/usr/local/zabbix-3.4.9 --enable-server --enable-agent --enable-java --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --with-libxml2 --with-openipmi --with-unixodbc --with-openssl
  
 	make && make install    
 
-> 登录数据库  
+登录数据库  
 
 	create database zabbix character set utf8 collate utf8_bin;
 	
@@ -235,7 +235,7 @@ vi /var/www/html/info.php
 	source /usr/local/zabbix/database/mysql/images.sql;
 	source /usr/local/zabbix/database/mysql/data.sql;  
 
-> 配置zabbix  
+配置zabbix  
 
 	ln -s /usr/local/zabbix/etc/ /etc/zabbix
 	ln -s /usr/local/zabbix/bin/* /usr/bin/
@@ -263,7 +263,7 @@ vi /var/www/html/info.php
 	systemctl start zabbix_server
 	systemctl start zabbix_agend  
 
-##zabbix转中文
+# zabbix转中文
 
 	下载标准中文字体simkai.tff，并上传至/var/www/html/zabbix/fonts/
 	
@@ -276,20 +276,21 @@ vi /var/www/html/info.php
 	http: service nginx restart  
 
 
-##配置snmp
+# 配置snmp
 
-	修改团体名 vi /etc/snmp/snmpd.conf
+	vi /etc/snmp/snmpd.conf
 	public改为hadoop
 	systemctl start snmpd.service 
 	systemctl enable snmpd.service     
 
-##安装agent  
+# 安装agent  
 
 	yum -y install net-snmp-devel libxml2-devel libcurl-deve libevent libevent-devel
 	scp  /usr/local/zabbix-3.4.9.tar.gz   root@192.168.100.11:/usr/local
-	进入zabbix-3.4.9解压目录，
-	编译 ./configure --prefix=/usr/local/zabbix --enable-agent   
-	安装make && make install
+	mv zabbix-3.4.9 zabbix
+	cd zabbix
+	./configure --prefix=/usr/local/zabbix --enable-agent   
+	make && make install
 	
 	groupadd zabbix
 	useradd -g zabbix -m zabbix
