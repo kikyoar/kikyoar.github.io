@@ -13,17 +13,12 @@ tags:
 
 **设置本地yum源**  
 
-	# mount -o loop /usr/local/Centos-7.4-x86_64-dvd.iso /mnt/cdrom
-	# cd /etc/yum.repos.d/
-	# mkdir -p bak
+	#mount -o loop /usr/local/Centos-7.4-x86_64-dvd.iso /mnt/cdrom
+	cd /etc/yum.repos.d/
+	mkdir -p bak
+	mv *.repo bak/
+	vi /etc/yum.repos.d/redhat.repo
 	
-	# 接下来将之前的yum配置文件移动到上面创建的bak文件夹中 
-	# mv *.repo bak/
-	
-	# 接下来添加一个新的yum源配置文件
-	# vi /etc/yum.repos.d/redhat.repo
-	
-	# 按“Insert”键进入编辑模式，复制下面的内容到配置文件
 	[RHEL]
 	
 	name=Centos7.4        
@@ -54,7 +49,7 @@ tags:
 	rpm -ivh  nginx-1.12.2-1.el7_4.ngx.x86_64.rpm
 	systemctl enable nginx
 	systemctl start nginx
-	启动状态  systemctl status nginx
+	systemctl status nginx
 	
 不关闭nginx，修改配置文件生效方法 nginx -s reload     
 
@@ -82,10 +77,10 @@ Centos7自带的mysql是mariadb ,我们可以通过如下命令查看
 如果报libmcrypt找不到错误  
 
 	tar zxvf libmcrypt-2.5.8.tar.gz 
-	cd libmcrypt-2.5.8  #进入安装目录
-	./configure  #配置
-	make  #编译
-	make install  #安装  
+	cd libmcrypt-2.5.8 
+	./configure
+	make
+	make install
 
 编译安装php  
 
@@ -314,7 +309,7 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	Hostname=gsunicom-nifi-01
 	/etc/init.d/zabbix_agentd start
 	
-	修改团体名 vi /etc/snmp/snmpd.conf
+	vi /etc/snmp/snmpd.conf
 	public改为hadoop
 	systemctl start snmpd.service 
 	systemctl enable snmpd.service 
