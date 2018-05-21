@@ -9,9 +9,9 @@ tags:
     - Zabbix
 ---
 
-# 提前准备
+## 提前准备
 
-> **设置本地yum源**  
+**设置本地yum源**  
 
 	# mount -o loop /usr/local/Centos-7.4-x86_64-dvd.iso /mnt/cdrom
 	# cd /etc/yum.repos.d/
@@ -33,18 +33,20 @@ tags:
 	gpgcheck=0
 	gpgkey=file:///mnt/cdrom/RPM-GPG-KEY-redhat-release
 	
-	enabled=1
-> **关闭删除防火墙**  
+	enabled=1  
+	
+**关闭删除防火墙**  
 
 	systemctl stop firewalld.service  
-	systemctl disable firewalld.service  
-> **关闭selinux**
+	systemctl disable firewalld.service   
+ 
+**关闭selinux**
 
 	sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 	grep SELINUX /etc/selinux/config    #确认是否修改成功  
 	setenforce 0    
 
-# 安装Nginx  
+## 安装Nginx  
 
 下载nginx   
 
@@ -56,7 +58,7 @@ tags:
 	
 不关闭nginx，修改配置文件生效方法 nginx -s reload     
 
-# 安装Mysql  
+## 安装Mysql  
 
 Centos7自带的mysql是mariadb ,我们可以通过如下命令查看 
 
@@ -67,7 +69,7 @@ Centos7自带的mysql是mariadb ,我们可以通过如下命令查看
 	
 **初始化mysql数据库，并配置root用户密码 mysql_secure_installation**  
 
-# 安装PHP  
+## 安装PHP  
 	
 	wget http://cn2.php.net/distributions/php-7.1.11.tar.gz
 	tar zxvf php-7.1.11.tar.gz && cd ./php-7.1.11  
@@ -198,7 +200,7 @@ PHP编译时错误：Don’t know how to define struct flock on this system, set
 
 访问 http://127.0.0.1/info.php    
 
-# 安装zabbix-server
+## 安装zabbix-server
 
 	yum install mysql-devel
 	yum -y install net-snmp-devel libxml2-devel libcurl-deve libevent libevent-devel  
@@ -263,7 +265,7 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	systemctl start zabbix_server
 	systemctl start zabbix_agend  
 
-# zabbix转中文
+## zabbix转中文
 
 	下载标准中文字体simkai.tff，并上传至/var/www/html/zabbix/fonts/
 	
@@ -276,14 +278,14 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	http: service nginx restart  
 
 
-# 配置snmp
+## 配置snmp
 
 	vi /etc/snmp/snmpd.conf
 	public改为hadoop
 	systemctl start snmpd.service 
 	systemctl enable snmpd.service     
 
-# 安装agent  
+## 安装zabbix_agent 
 
 	yum -y install net-snmp-devel libxml2-devel libcurl-deve libevent libevent-devel
 	scp  /usr/local/zabbix-3.4.9.tar.gz   root@192.168.100.11:/usr/local
