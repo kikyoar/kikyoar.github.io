@@ -20,16 +20,16 @@ tags:
 zabbix 服务端通过snmp验证   
 
 
-		[root@dev70 ~]# snmpget -v 2c -c <Community> <iDRAC IP> .1.3.6.1.4.1.674.10892.2.1.1.2.0
-		[root@dev70 ~]# snmpget -v 2c -c xkeshi 192.168.184.200 .1.3.6.1.4.1.674.10892.2.1.1.2.0
-		SNMPv2-SMI::enterprises.674.10892.2.1.1.2.0 = STRING: "iDRAC8"  
+	[root@dev70 ~]# snmpget -v 2c -c <Community> <iDRAC IP> .1.3.6.1.4.1.674.10892.2.1.1.2.0
+	[root@dev70 ~]# snmpget -v 2c -c xkeshi 192.168.184.200 .1.3.6.1.4.1.674.10892.2.1.1.2.0
+	SNMPv2-SMI::enterprises.674.10892.2.1.1.2.0 = STRING: "iDRAC8"  
 
 **配置zabbix**  
 
 zabbix web界面 —> 管理 —> 一般 —> 值映射  
 ![zabbix值映射](http://kikyoar.com/img/zabbix_mapping.png)  
 	
-	- DellDracDiskState  
+- DellDracDiskState  
 	
 			1 -> Unknown
 			2 -> Ready
@@ -41,12 +41,12 @@ zabbix web界面 —> 管理 —> 一般 —> 值映射
 			8 -> Non-RAID
 			9 -> Removed  
 	
-	- Dell iDRAC Network Device Connection Status  
+- Dell iDRAC Network Device Connection Status  
 	
 			1 -> Connected
 			2 -> Disconnected  
 	
-	- Dell Open Manage System Status  
+- Dell Open Manage System Status  
 	
 			1 -> Other
 			2 -> Unknown
@@ -55,14 +55,14 @@ zabbix web界面 —> 管理 —> 一般 —> 值映射
 			5 -> Critical
 			6 -> NonRecoverable  
 	
-	- DellPowerState  
+- DellPowerState  
 	
 			1 -> Other
 			2 -> Unknown
 			3 -> Off
 			4 -> On  
 	
-	- Dell PSU State Settings  
+- Dell PSU State Settings  
 
 			1 -> Unknown
 			2 -> Online (state disabled)
@@ -72,7 +72,7 @@ zabbix web界面 —> 管理 —> 一般 —> 值映射
 			16 -> On
 			242 -> Online and OK  
 	
-	- DellRaidLevel  
+- DellRaidLevel  
 
 			1 -> Unknown
 			2 -> RAID-0
@@ -85,14 +85,14 @@ zabbix web界面 —> 管理 —> 一般 —> 值映射
 			9 -> Concatenated RAID 1
 			10 -> Concatenated RAID 5  
 	
-	- DellRaidVolumeState  
+- DellRaidVolumeState  
 
 			1 -> Unknown
 			2 -> Online
 			3 -> Failed
 			4 -> Degraded		
 			
-	- Dell_PSU_SensorState  
+- Dell_PSU_SensorState  
 
 			1 -> Presence Detected
 			2 -> PS Failure
