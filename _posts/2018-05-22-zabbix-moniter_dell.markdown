@@ -14,7 +14,7 @@ tags:
 
 **iDRAC开启SNMP服务**   
 
-登录之后单击 —> iDRAC设置 —> 网络 —> 服务 —> SNMP代理
+登录之后单击 —> iDRAC设置 —> 网络 —> 服务 —> SNMP代理  
 登录之后单击 —> iDRAC设置 —> 网络 -> 启用LAN上IPMI  
 *由于缺少IPMI模板，所以以下为snmp监控说明*  
 zabbix 服务端通过snmp验证   
