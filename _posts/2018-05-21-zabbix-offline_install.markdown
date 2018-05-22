@@ -276,7 +276,13 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 ## 配置snmp
 
 	vi /etc/snmp/snmpd.conf
-	public改为hadoop
+	com2sec notConfigUser  default   hadoop           //将public改为hadoop
+	view    systemview    included   .1                  //手动新增加这行
+	proc mountd                    //找到配置，把注释去掉
+	proc ntalkd 4                    //找到配置，把注释去掉
+	proc sendmail 10 1               //找到配置，把注释去掉
+	disk / 10000                    //找到配置，把注释去掉
+	load 12 14 14                   //找到配置，把注释去掉
 	systemctl start snmpd.service 
 	systemctl enable snmpd.service     
 
@@ -307,12 +313,20 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	LogFile=/usr/local/zabbix/logs/zabbix_agentd.log
 	UnsafeUserParameters=1
 	Hostname=gsunicom-nifi-01
-	/etc/init.d/zabbix_agentd start
-	
+	/etc/init.d/zabbix_agentd start  
+	 
+
+## 客户端SNMP配置
+
 	vi /etc/snmp/snmpd.conf
-	public改为hadoop
+	com2sec notConfigUser  default   hadoop           //将public改为hadoop
+	view    systemview    included   .1                  //手动新增加这行
 	systemctl start snmpd.service 
-	systemctl enable snmpd.service 
+	systemctl enable snmpd.service   
+	
+以下为配置图，**切记一定要改宏**
+![zabbix snmp配置](../img/zabbix_offline_install_snmp01.png)
+![zabbix snmp配置](../img/zabbix_offline_install_snmp02.png)
 
 
 
