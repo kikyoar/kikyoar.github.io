@@ -34,6 +34,7 @@ tags:
 如果我们希望只列出目录，我们可以使用-d选项  
 
 	$ ls -d */    
+
 ![linux_ls_d](http://kikyoar.com/img/linux_ls_d.png)   
 
 **7.不打印所有者、组信息**  
