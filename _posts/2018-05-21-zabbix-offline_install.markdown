@@ -325,8 +325,8 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	systemctl enable snmpd.service   
 	
 以下为配置图，**切记一定要改宏**
-![zabbix snmp配置](/img/zabbix_offline_install_snmp01.png)
-![zabbix snmp配置](/img/zabbix_offline_install_snmp02.png)
+![zabbix snmp配置](http://kikyoar.com/img/zabbix_offline_install_snmp01.png)
+![zabbix snmp配置](http://kikyoar.com/img/zabbix_offline_install_snmp02.png)
 
 
 
