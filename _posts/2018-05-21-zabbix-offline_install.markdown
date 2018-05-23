@@ -330,7 +330,7 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 ![zabbix snmp配置](http://kikyoar.com/img/zabbix_offline_install_snmp01.png)
 ![zabbix snmp配置](http://kikyoar.com/img/zabbix_offline_install_snmp02.png)
 
-##备注   
+## 备注   
 
 --enable-gd-jis-conv   
 **PHP注意不能有--enable-gd-jis-conv参数，否则后面图形乱码**
