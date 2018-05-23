@@ -84,7 +84,7 @@ Centos7自带的mysql是mariadb ,我们可以通过如下命令查看
 
 编译安装php  
 
-	./configure --prefix=/usr/local/php --with-config-file-path=/etc --enable-fpm --with-fpm-user=nginx  --with-fpm-group=nginx --enable-inline-optimization --disable-debug --disable-rpath --enable-shared  --enable-soap --with-libxml-dir --with-xmlrpc --with-openssl --with-mcrypt --with-mhash --with-pcre-regex --with-sqlite3 --with-zlib --enable-bcmath  --with-iconv --with-bz2 --enable-calendar --with-curl --with-cdb --enable-dom --enable-exif --enable-fileinfo --enable-filter --with-pcre-dir --enable-ftp --with-gd --with-openssl-dir  --with-jpeg-dir --with-png-dir --with-zlib-dir --with-freetype-dir --enable-gd-native-ttf --enable-gd-jis-conv --with-gettext --with-gmp --with-mhash --enable-json --enable-mbstring --enable-mbregex --enable-mbregex-backtrack --with-libmbfl --with-onig --enable-pdo --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-zlib-dir --with-pdo-sqlite --with-readline --enable-session --enable-shmop --enable-simplexml --enable-sockets  --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-libxml-dir --with-xsl --enable-zip --enable-mysqlnd-compression-support --with-pear --enable-opcache  
+	./configure --prefix=/usr/local/php --with-config-file-path=/etc --enable-fpm --with-fpm-user=nginx  --with-fpm-group=nginx --enable-inline-optimization --disable-debug --disable-rpath --enable-shared  --enable-soap --with-libxml-dir --with-xmlrpc --with-openssl --with-mcrypt --with-mhash --with-pcre-regex --with-sqlite3 --with-zlib --enable-bcmath  --with-iconv --with-bz2 --enable-calendar --with-curl --with-cdb --enable-dom --enable-exif --enable-fileinfo --enable-filter --with-pcre-dir --enable-ftp --with-gd --with-openssl-dir  --with-jpeg-dir --with-png-dir --with-zlib-dir --with-freetype-dir --enable-gd-native-ttf  --with-gettext --with-gmp --with-mhash --enable-json --enable-mbstring --enable-mbregex --enable-mbregex-backtrack --with-libmbfl --with-onig --enable-pdo --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-zlib-dir --with-pdo-sqlite --with-readline --enable-session --enable-shmop --enable-simplexml --enable-sockets  --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-wddx --with-libxml-dir --with-xsl --enable-zip --enable-mysqlnd-compression-support --with-pear --enable-opcache  
   
 
 PHP编译时错误：Don’t know how to define struct flock on this system, set –enable-opcache=no.可能是/usr/local/lib下的库文件没有加载，可如下操作：  
@@ -269,8 +269,9 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	vim /var/www/html/zabbix/include/defines.inc.php   
 	
 	define('ZBX_GRAPH_FONT_NAME',   ' DejaVuSans')改为define('ZBX_GRAPH_FONT_NAME',  'simkai');
+    define('ZBX_FONT_NAME', 'DejaVuSans')    改为define('ZBX_GRAPH_FONT_NAME',  'simkai');
 	
-	http: service nginx restart  
+	service nginx restart  
 
 
 ## 配置snmp
@@ -318,7 +319,8 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 
 ## 客户端SNMP配置
 
-	vi /etc/snmp/snmpd.conf
+	yum -y install net-snmp-devel
+    vi /etc/snmp/snmpd.conf
 	com2sec notConfigUser  default   hadoop           //将public改为hadoop
 	view    systemview    included   .1                  //手动新增加这行
 	systemctl start snmpd.service 
@@ -328,9 +330,7 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 ![zabbix snmp配置](http://kikyoar.com/img/zabbix_offline_install_snmp01.png)
 ![zabbix snmp配置](http://kikyoar.com/img/zabbix_offline_install_snmp02.png)
 
+##备注   
 
-
-	
-		
-
-	
+--enable-gd-jis-conv   
+**PHP注意不能有--enable-gd-jis-conv参数，否则后面图形乱码**
