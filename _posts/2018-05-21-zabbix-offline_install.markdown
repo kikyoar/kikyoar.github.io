@@ -310,7 +310,7 @@ Yum安装OpenIPMI并下载OpenIPMI-devel-2.0.19-15.el7.x86_64.rpm , libevent-dev
 	
 	vi /etc/zabbix/zabbix_agentd.conf
 	Server=192.168.100.135
-	ServerActive=192.168.100.135
+	#ServerActive=127.0.0.1
 	LogFile=/usr/local/zabbix/logs/zabbix_agentd.log
 	UnsafeUserParameters=1
 	Hostname=gsunicom-nifi-01
