@@ -18,7 +18,7 @@ sar命令包含在sysstat工具包中，提供系统的众多统计数据。其�
 
 DEV显示网络接口信息  
 
-另外，-n参数很有用，他有6个不同的开关：DEV | EDEV | NFS | NFSD | SOCK | ALL ，其代表的含义如下：  
+**另外，-n参数很有用，他有6个不同的开关：DEV | EDEV | NFS | NFSD | SOCK | ALL ，其代表的含义如下：**    
 
 - DEV显示网络接口信息  
 - EDEV显示关于网络错误的统计数据  
@@ -27,41 +27,41 @@ DEV显示网络接口信息
 - SOCK显示套接字信息  
 - ALL显示所有5个开关  
 
-
-		[sre@CDVM-213017031 ~]$ sar -n DEV 1 2
-		Linux 2.6.32-431.el6.x86_64 (CDVM-213017031)  05/04/2017  _x86_64_ (4 CPU)
-		
-		08:05:30 PM  IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s
-		08:05:31 PM  lo  0.00  0.00  0.00  0.00  0.00  0.00  0.00
-		08:05:31 PM  eth0 1788.00 1923.00 930.47 335.60  0.00  0.00  0.00
-		
-		08:05:31 PM  IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s
-		08:05:32 PM  lo  0.00  0.00  0.00  0.00  0.00  0.00  0.00
-		08:05:32 PM  eth0 1387.00 1469.00 652.12 256.98  0.00  0.00  0.00
-		
-		Average:  IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s
-		Average:   lo  0.00  0.00  0.00  0.00  0.00  0.00  0.00
-		Average:   eth0 1587.50 1696.00 791.29 296.29  0.00  0.00  0.00  
-
+```
+[sre@CDVM-213017031 ~]$ sar -n DEV 1 2
+Linux 2.6.32-431.el6.x86_64 (CDVM-213017031)  05/04/2017  _x86_64_ (4 CPU)
+	
+08:05:30 PM  IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s
+08:05:31 PM  lo  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+08:05:31 PM  eth0 1788.00 1923.00 930.47 335.60  0.00  0.00  0.00
+	
+08:05:31 PM  IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s
+08:05:32 PM  lo  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+08:05:32 PM  eth0 1387.00 1469.00 652.12 256.98  0.00  0.00  0.00
+	
+Average:  IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s
+Average:   lo  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+Average:   eth0 1587.50 1696.00 791.29 296.29  0.00  0.00  0.00   
+```
 参数说明：  
 
-	IFACE：LAN接口
-	rxpck/s：每秒钟接收的数据包
-	txpck/s：每秒钟发送的数据包
-	rxbyt/s：每秒钟接收的字节数
-	txbyt/s：每秒钟发送的字节数
-	rxcmp/s：每秒钟接收的压缩数据包
-	txcmp/s：每秒钟发送的压缩数据包
-	rxmcst/s：每秒钟接收的多播数据包
-	rxerr/s：每秒钟接收的坏数据包
-	txerr/s：每秒钟发送的坏数据包
-	coll/s：每秒冲突数
-	rxdrop/s：因为缓冲充满，每秒钟丢弃的已接收数据包数
-	txdrop/s：因为缓冲充满，每秒钟丢弃的已发送数据包数
-	txcarr/s：发送数据包时，每秒载波错误数
-	rxfram/s：每秒接收数据包的帧对齐错误数
-	rxfifo/s：接收的数据包每秒FIFO过速的错误数
-	txfifo/s：发送的数据包每秒FIFO过速的错误数  
+- IFACE：LAN接口
+- rxpck/s：每秒钟接收的数据包
+- txpck/s：每秒钟发送的数据包
+- rxbyt/s：每秒钟接收的字节数
+- txbyt/s：每秒钟发送的字节数
+- rxcmp/s：每秒钟接收的压缩数据包
+- txcmp/s：每秒钟发送的压缩数据包
+- rxmcst/s：每秒钟接收的多播数据包
+- rxerr/s：每秒钟接收的坏数据包
+- txerr/s：每秒钟发送的坏数据包
+- coll/s：每秒冲突数
+- rxdrop/s：因为缓冲充满，每秒钟丢弃的已接收数据包数
+- txdrop/s：因为缓冲充满，每秒钟丢弃的已发送数据包数
+- txcarr/s：发送数据包时，每秒载波错误数
+- rxfram/s：每秒接收数据包的帧对齐错误数
+- rxfifo/s：接收的数据包每秒FIFO过速的错误数
+- txfifo/s：发送的数据包每秒FIFO过速的错误数  
 	
 **2. cat /proc/net/dev**   
 
@@ -88,37 +88,39 @@ Linux 内核提供了一种通过 /proc 文件系统，在运行时访问内核�
 	
 	while true
 	do
-	 RX_pre=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $2}')
-	 TX_pre=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $10}')
-	 sleep 1
-	 RX_next=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $2}')
-	 TX_next=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $10}')
+	  RX_pre=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $2}')
+	  TX_pre=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $10}')
+	  sleep 1
+	  RX_next=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $2}')
+	  TX_next=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $10}')
 	
-	 clear
-	 echo -e "\t RX `date +%k:%M:%S` TX"
+	  clear
+	  echo -e "\t RX `date +%k:%M:%S` TX"
 	
-	 RX=$((${RX_next}-${RX_pre}))
-	 TX=$((${TX_next}-${TX_pre}))
+	  RX=$((${RX_next}-${RX_pre}))
+	  TX=$((${TX_next}-${TX_pre}))
 	
-	 if [[ $RX -lt 1024 ]];then
-	 RX="${RX}B/s"
-	 elif [[ $RX -gt 1048576 ]];then
-	 RX=$(echo $RX | awk '{print $1/1048576 "MB/s"}')
-	 else
-	 RX=$(echo $RX | awk '{print $1/1024 "KB/s"}')
-	 fi
+	  if [[ $RX -lt 1024 ]];then
+	    RX="${RX}B/s"
+	  elif [[ $RX -gt 1048576 ]];then
+	    RX=$(echo $RX | awk '{print $1/1048576 "MB/s"}')
+	  else
+	    RX=$(echo $RX | awk '{print $1/1024 "KB/s"}')
+	  fi
 	
-	 if [[ $TX -lt 1024 ]];then
-	 TX="${TX}B/s"
-	 elif [[ $TX -gt 1048576 ]];then
-	 TX=$(echo $TX | awk '{print $1/1048576 "MB/s"}')
-	 else
-	 TX=$(echo $TX | awk '{print $1/1024 "KB/s"}')
-	 fi
+	  if [[ $TX -lt 1024 ]];then
+	    TX="${TX}B/s"
+	  elif [[ $TX -gt 1048576 ]];then
+	    TX=$(echo $TX | awk '{print $1/1048576 "MB/s"}')
+	  else
+	    TX=$(echo $TX | awk '{print $1/1024 "KB/s"}')
+	  fi
 	
-	 echo -e "$ethn \t $RX $TX "
+	  echo -e "$ethn \t $RX   $TX "
 	
-	 done  
+	  done
+
+
 	
 此脚本不需要额外再安装软件，并且可自定义欲查看接口，精确到小数，可根据流量大小灵活显示单位，默认采集间隔为1秒   
 
