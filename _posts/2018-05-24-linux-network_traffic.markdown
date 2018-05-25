@@ -86,7 +86,8 @@ Linux 内核提供了一种通过 /proc 文件系统，在运行时访问内核�
 #!/bin/bash
 
 ethn=$1
-while [[ true ]]; do   
+while [[ true ]]; do    
+  
   RX_pre=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $2}')      
   TX_pre=$(cat /proc/net/dev | grep $ethn | sed 's/:/ /g' | awk '{print $10}')   
   sleep 1
