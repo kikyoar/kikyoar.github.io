@@ -159,6 +159,8 @@ source命令即点(.)命令。在bash下输入man source，找到source命令解
 	-rw-r--r-- 1 root root 0 10-28 14:47 ./test3/log3-3.log
 	
 	-rw-r--r-- 1 root root 0 10-28 14:47 ./test3/log3-1.log
+
+
 **上面的例子中，find命令匹配到了当前目录下的所有普通文件，并在-exec选项中使用ls -l命令将它们列出**   
 
 **实例2：在目录中查找更改时间在n日以前的文件并删除它们**  
@@ -267,7 +269,7 @@ n表示文件更改时间距离为n天， -n表示文件更改时间距离在n�
 	
 	drwxrwxrwx 2 root root   4096 11-12 19:32 test4
 	
-	[root@localhost test]#
+	[root@localhost test]#  
 
 
 **在上面的例子中， find命令在当前目录中查找所有文件名以.log结尾、更改时间在5日以上的文件，并删除它们，只不过在删除之前先给出提示。 按y键删除文件，按n键不删除**   
