@@ -83,7 +83,6 @@ Linux 内核提供了一种通过 /proc 文件系统，在运行时访问内核�
 **实时监控脚本**  
 
 ```
-#!/bin/bash
 
 ethn=$1
 while [[ true ]]; do    
