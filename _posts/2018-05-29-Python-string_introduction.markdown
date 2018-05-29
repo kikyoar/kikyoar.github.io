@@ -2,7 +2,7 @@
 layout:     post
 title:      "Python格式化字符串"
 subtitle:   "Python字符串的使用说明"
-date:       2018-05-28
+date:       2018-05-29
 author:     "kikyoar"
 header-img: "img/post-bg-python-version.jpg"
 tags:
