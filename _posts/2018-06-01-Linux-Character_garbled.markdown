@@ -17,6 +17,7 @@ tags:
 **若用ftp客户端访问资源时，遇到乱码情况，也请核实客户端编码方式和服务器是否一致**  
 
 	./convmv -f GB2312  -t UTF-8 -r --notest /Resources/*  
+
 以上讲述了在linux下修改目录名编码的方法，再扩展一下文件内容更改编码的方法  
 
 - 在Vim中直接进行转换文件编码,比如将一个文件转换成utf-8格式:  
@@ -27,7 +28,7 @@ tags:
 
 		iconv -f encoding -t encoding inputfile
 
-比如将一个UTF-8 编码的文件转换成GBK编码  
+	比如将一个UTF-8 编码的文件转换成GBK编码  
 
 		iconv -f GBK -t UTF-8 file1 -o file2  
 		
