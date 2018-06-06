@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "linux下 文件夹和文件的字符集编码方式转换"
+title:      "linux下文件夹和文件的字符集编码方式转换"
 subtitle:   "Linux中文显示乱码"
 date:       2018-06-01
 author:     "kikyoar"
