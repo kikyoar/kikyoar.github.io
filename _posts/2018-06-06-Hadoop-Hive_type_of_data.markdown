@@ -59,35 +59,35 @@ BINARY	|-	|二进制类型|	-
 	
 - **字符串类型**   
 
-**String**  
-string类型可以用单引号（'）或双引号（"）定义，Hive在string中使用C-style  
+	**String**  
+	string类型可以用单引号（'）或双引号（"）定义，Hive在string中使用C-style  
 
-**Varchar**  
-varchar类型由长度定义，范围为1-65355，如果存入的字符串长度超过了定义的长度，超出部分会被截断。尾部的空格也会作为字符串的一部分，影响字符串的比较  
+	**Varchar**  
+	varchar类型由长度定义，范围为1-65355，如果存入的字符串长度超过了定义的长度，超出部分会被截断。尾部的空格也会作为字符串的一部分，影响字符串的比较  
 
-**Char**  
-char是固定长度的，最大长度255，而且尾部的空格不影响字符串的比较。
+	**Char**  
+	char是固定长度的，最大长度255，而且尾部的空格不影响字符串的比较。
 
 
-三种类型对尾部空格的区别，参考如下例子，每个字段都插入同样的字符并且在尾部有不同的空格
-
-	hive> create table char_a(
-	    > c1 char(4),
-	    > c2 char(5),
-	    > str1 string,
-	    > str2 string,
-	    > var1 varchar(4),
-	    > var2 varchar(5)
-	    > )
-	    > ;
-	    
-	hive> insert into char_a values('ccc ','ccc  ','ccc ','ccc  ','ccc ','ccc  ');
+	三种类型对尾部空格的区别，参考如下例子，每个字段都插入同样的字符并且在尾部有不同的空格
 	
-	hive> select c1=c2,str1=str2,var1=var2 from char_a;
-	
-	OK
-	true    false   false
-	Time taken: 1.101 seconds, Fetched: 1 row(s)   
+		hive> create table char_a(
+		    > c1 char(4),
+		    > c2 char(5),
+		    > str1 string,
+		    > str2 string,
+		    > var1 varchar(4),
+		    > var2 varchar(5)
+		    > )
+		    > ;
+		    
+		hive> insert into char_a values('ccc ','ccc  ','ccc ','ccc  ','ccc ','ccc  ');
+		
+		hive> select c1=c2,str1=str2,var1=var2 from char_a;
+		
+		OK
+		true    false   false
+		Time taken: 1.101 seconds, Fetched: 1 row(s)   
 
 ## 日期与时间戳  
 
