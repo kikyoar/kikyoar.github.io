@@ -4,7 +4,7 @@ title:      "Hive数据类型"
 subtitle:   "Hive的几种数据类型解析"
 date:       2018-06-06
 author:     "kikyoar"
-header-img: "img/post-bg-python-version.jpg"
+header-img: "img/post-bg-hadoop-version.jpg"
 tags:
     - Hadoop
 ---  
