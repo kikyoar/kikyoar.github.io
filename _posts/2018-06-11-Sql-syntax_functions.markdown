@@ -188,7 +188,6 @@ _	| 仅替代一个字符
 		ON table_name1.column_name=table_name2.column_name  
 		
 		# 我们希望列出所有的定单，以及定购它们的人 - 如果有的话  
-
 		SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
 		FROM Persons
 		RIGHT JOIN Orders
@@ -236,6 +235,7 @@ _	| 仅替代一个字符
 	SELECT column_name(s) FROM table_name1
 	UNION ALL
 	SELECT column_name(s) FROM table_name2  
+	
 	# 列出在中国和美国的所有的雇员  
 	SELECT E_Name FROM Employees_China
 	UNION ALL
