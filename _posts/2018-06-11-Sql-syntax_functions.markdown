@@ -11,6 +11,8 @@ tags:
 
 ## sql基础语法  
 
+**所有实例均适合用于postgresql**
+
 **1、SQL SELECT 语句**   
 
 	SELECT 列名称 FROM 表名称 
@@ -240,6 +242,335 @@ _	| 仅替代一个字符
 	SELECT E_Name FROM Employees_China
 	UNION ALL
 	SELECT E_Name FROM Employees_USA  
+
+**17、SQL SELECT INTO 语句**  
+
+**SQL SELECT INTO 语句可用于创建表的备份复件**  
+**SELECT INTO 语句从一个表中选取数据，然后把数据插入另一个表中。SELECT INTO 语句常用于创建表的备份复件或者用于对记录进行存档**  
+
+	SELECT column_name(s)
+	INTO new_table_name [IN externaldatabase] 
+	FROM old_tablename  
+	
+**下面的例子会制作 "Persons" 表的备份复件：**  
+
+	SELECT *
+	INTO Persons_backup
+	FROM Persons
+
+**IN 子句可用于向另一个数据库中拷贝表，postgresql不支持：**  
+
+	SELECT *
+	INTO Persons IN 'Backup.mdb'
+	FROM Persons  
+
+**希望拷贝某些域，可以在 SELECT 语句后列出这些域：**  
+
+	SELECT LastName,FirstName
+	INTO Persons_backup
+	FROM Persons
+
+**带有 WHERE 子句：**
+
+	SELECT LastName,Firstname
+	INTO Persons_backup
+	FROM Persons
+	WHERE City='Beijing'  
+	
+**被连接的表：**  
+
+	SELECT Persons.LastName,Orders.OrderNo
+	INTO Persons_Order_Backup
+	FROM Persons
+	INNER JOIN Orders
+	ON Persons.Id_P=Orders.Id_P  
+	
+**18、SQL CREATE DATABASE 语句**  
+
+**CREATE DATABASE 用于创建数据库**  
+
+	CREATE DATABASE database_name
+	CREATE DATABASE my_db  
+	
+**19、SQL CREATE TABLE 语句**  
+
+**CREATE TABLE 语句用于创建数据库中的表**  
+
+	CREATE TABLE 表名称
+	(
+	列名称1 数据类型,
+	列名称2 数据类型,
+	列名称3 数据类型,
+	....
+	)  
+	
+|数据类型|描述|
+| :------: | :------: |
+| integer(size) int(size) smallint(size) tinyint(size) | 仅容纳整数，在括号内规定数字的最大位数 |
+| decimal(size,d) numeric(size,d)  | 容纳带有小数的数字，"size" 规定数字的最大位数。"d" 规定小数点右侧的最大位数 |
+| char(size) | 容纳固定长度的字符串（可容纳字母、数字以及特殊字符），在括号中规定字符串的长度 |
+| varchar(size) | 容纳可变长度的字符串（可容纳字母、数字以及特殊的字符），在括号中规定字符串的最大长度 |
+| date(yyyymmdd) | 容纳日期 |  
+
+	CREATE TABLE Persons
+	(
+	Id_P int,
+	LastName varchar(255),
+	FirstName varchar(255),
+	Address varchar(255),
+	City varchar(255)
+	)   
+	
+**20、SQL 约束 (Constraints)**  
+
+**约束用于限制加入表的数据的类型**  
+**可以在创建表时规定约束（通过 CREATE TABLE 语句），或者在表创建之后也可以（通过 ALTER TABLE 语句**   
+
+- SQL NOT NULL 约束  
+
+	**NOT NULL 约束强制列不接受 NULL 值**  
+	**NOT NULL 约束强制字段始终包含值。这意味着，如果不向字段添加值，就无法插入新记录或者更新记录**  
+	
+	
+		CREATE TABLE Persons
+		(
+		Id_P int NOT NULL,
+		LastName varchar(255) NOT NULL,
+		FirstName varchar(255),
+		Address varchar(255),
+		City varchar(255)
+		)
+		
+		#更改数据类型和设置部位空   
+		alter table persons_order_backup alter lastname type varchar(30);
+		alter table persons_order_backup alter lastname  set not null;  
+		
+- SQL UNIQUE 约束  
+
+	**UNIQUE 约束唯一标识数据库表中的每条记录**   
+	**UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证**   
+	**PRIMARY KEY 拥有自动定义的 UNIQUE 约束**  
+	**每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束**   
+	
+		# SQL 在 "Persons" 表创建时在 "Id_P" 列创建 UNIQUE 约束
+		create table test
+		(
+		Id_p int not null,
+		lastname varchar(30) not null,
+		unique (Id_p)
+		)  
+		
+		# 命名 UNIQUE 约束，以及为多个列定义 UNIQUE 约束
+		CREATE TABLE Persons
+		(
+		Id_P int NOT NULL,
+		LastName varchar(255) NOT NULL,
+		FirstName varchar(255),
+		Address varchar(255),
+		City varchar(255),
+		CONSTRAINT uc_PersonID UNIQUE (Id_P,LastName)
+		)
+
+		# 当表已被创建时，如需在 "lastname" 列创建 UNIQUE 约束
+		alter table test add unique (lastname);  
+		# 如需命名 UNIQUE 约束，并定义多个列的 UNIQUE 约束  
+		ALTER TABLE learn.persons ADD CONSTRAINT uc_personid UNIQUE (id_p, lastname);   
+		# 如需撤销 UNIQUE 约束
+		ALTER TABLE learn.persons DROP CONSTRAINT uc_personid;  
+		
+- SQL PRIMARY KEY 约束  
+
+	**PRIMARY KEY 约束唯一标识数据库表中的每条记录**  
+	**主键必须包含唯一的值**
+	**主键列不能包含 NULL 值** 
+	**每个表都应该有一个主键，并且每个表只能有一个主键** 
+	**如果您使用 ALTER TABLE 语句添加主键，必须把主键列声明为不包含 NULL 值（在表首次创建时）**  
+	
+
+		# 下面的 SQL 在 "Persons" 表创建时在 "Id_P" 列创建 PRIMARY KEY 约束
+		CREATE TABLE test
+		(
+		Id_P int NOT NULL,
+		LastName varchar(255) NOT NULL,
+		FirstName varchar(255),
+		Address varchar(255),
+		City varchar(255),
+		PRIMARY KEY (Id_P)
+		)  
+		
+		# 删除主键
+		alter table test drop constraint test_pkey;  
+		
+		# 如果在表已存在的情况下为 "Id_P" 列创建 PRIMARY KEY 约束  
+		ALTER TABLE learn.test ADD CONSTRAINT test_pkey PRIMARY KEY (id_p)   
+		
+- SQL FOREIGN KEY 约束
+
+	**一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY**  
+	**FOREIGN KEY 约束用于预防破坏表之间连接的动作**
+	**FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一**  
+
+		# 下面的 SQL 在 "Orders" 表创建时为 "Id_P" 列创建 FOREIGN KEY    		CREATE TABLE Orders
+		(
+		Id_O int NOT NULL,
+		OrderNo int NOT NULL,
+		Id_P int,
+		PRIMARY KEY (Id_O),
+		FOREIGN KEY (Id_P) REFERENCES Persons(Id_P)
+		)  
+
+		# 如果需要命名 FOREIGN KEY 约束，以及为多个列定义 FOREIGN KEY 约束，请使用下面的 SQL 语法
+		CREATE TABLE Orders
+		(
+		Id_O int NOT NULL,
+		OrderNo int NOT NULL,
+		Id_P int,
+		PRIMARY KEY (Id_O),
+		CONSTRAINT fk_PerOrders FOREIGN KEY (Id_P)
+		REFERENCES Persons(Id_P)
+		)
+		
+		# 如果在 "Orders" 表已存在的情况下为 "Id_P" 列创建 FOREIGN KEY 约束，请使用下面的 SQL 
+		ALTER TABLE learn.orders ADD CONSTRAINT orders_id_p_fkey FOREIGN KEY (id_p) REFERENCES persons(id_p);  
+		
+		# 如需撤销 FOREIGN KEY 约束，请使用下面的 SQL
+		ALTER TABLE learn.orders DROP CONSTRAINT orders_id_p_fkey;  
+		
+
+- SQL CHECK 约束
+
+	**CHECK 约束用于限制列中的值的范围**  
+	**如果对单个列定义 CHECK 约束，那么该列只允许特定的值**  
+	**如果对一个表定义 CHECK 约束，那么此约束会在特定的列中对值进行限制**  
+
+		# 下面的 SQL 在 "Persons" 表创建时为 "Id_P" 列创建 CHECK 约束。CHECK 约束规定 "Id_P" 列必须只包含大于 0 的整数  
+		CREATE TABLE Persons
+		(
+		Id_P int NOT NULL,
+		LastName varchar(255) NOT NULL,
+		FirstName varchar(255),
+		Address varchar(255),
+		City varchar(255),
+		CHECK (Id_P>0)
+		)  
+	  
+		# 如果需要命名 CHECK 约束，以及为多个列定义 CHECK 约束，请使用下面的 SQL 语法  
+		CREATE TABLE Persons
+		(
+		Id_P int NOT NULL,
+		LastName varchar(255) NOT NULL,
+		FirstName varchar(255),
+		Address varchar(255),
+		City varchar(255),
+		CONSTRAINT chk_Person CHECK (Id_P>0 AND City='Sandnes')
+		)  
+		
+		# 如果在表已存在的情况下为 "Id_P" 列创建 CHECK 约束，请使用下面的 SQL 语法  
+		ALTER TABLE learn.test ADD CONSTRAINT test_check CHECK (id_p > 0);  
+		
+		# 如果需要命名 CHECK 约束，以及为多个列定义 CHECK 约束，请使用下面的 SQL 语法 
+		ALTER TABLE Persons ADD CONSTRAINT chk_Person CHECK (Id_P>0 AND City='Sandnes') ;
+		
+		# 如需撤销 CHECK 约束，请使用下面的 SQL
+		alter table learn.test drop constraint chk_Person;  
+		
+- SQL DEFAULT 约束  
+
+	**DEFAULT 约束用于向列中插入默认值**  
+	**如果没有规定其他的值，那么会将默认值添加到所有的新记录**  
+	
+		# 下面的 SQL 在 "Persons" 表创建时为 "City" 列创建 DEFAULT 约束
+		CREATE TABLE test
+		(
+		Id_P int NOT NULL,
+		LastName varchar(255) NOT NULL,
+		FirstName varchar(255),
+		Address varchar(255),
+		city varchar(255) default 'zhangye'
+		)  
+		
+		# 如果在表已存在的情况下为 "City" 列创建 DEFAULT 约束，请使用下面的 SQL  
+		ALTER TABLE Persons ALTER City SET DEFAULT 'SANDNES';  
+		
+		# 如需撤销 DEFAULT 约束，请使用下面的 SQL  
+		ALTER TABLE Persons ALTER City DROP DEFAULT;  
+		
+**21、SQL CREATE INDEX 语句**  
+
+**CREATE INDEX 语句用于在表中创建索引**
+**在不读取整个表的情况下，索引使数据库应用程序可以更快地查找数据**  
+
+**在表中创建索引，以便更加快速高效地查询数据，用户无法看到索引，它们只能被用来加速搜索/查询**    
+**注意：更新一个包含索引的表需要比更新一个没有索引的表更多的时间，这是由于索引本身也需要更新。因此，理想的做法是仅仅在常常被搜索的列（以及表）上面创建索引**  
+
+在表上创建一个简单的索引。允许使用重复的值  
+
+	CREATE INDEX index_name
+	ON table_name (column_name)  
+	
+在表上创建一个唯一的索引。唯一的索引意味着两个行不能拥有相同的索引值  
+
+	CREATE UNIQUE INDEX index_name
+	ON table_name (column_name)  
+	
+CREATE INDEX 实例  
+
+	# 创建一个简单的索引，名为 "PersonIndex"，在 Person 表的 LastName 列
+	CREATE INDEX PersonIndex
+	ON Person (LastName)   
+	
+	# 希望以降序索引某个列中的值，可以在列名称之后添加保留字 DESC
+	CREATE INDEX PersonIndex
+	ON Person (LastName DESC)   
+	
+	# 希望索引不止一个列，可以在括号中列出这些列的名称，用逗号隔开
+	CREATE INDEX PersonIndex
+	ON Person (LastName, FirstName)  
+	
+**22、SQL 撤销索引、表以及数据库**  
+
+**通过使用 DROP 语句，可以轻松地删除索引、表和数据库**  
+
+	# 使用 DROP INDEX 命令删除表格中的索引
+	DROP INDEX index_name  
+	
+	# DROP TABLE 语句用于删除表（表的结构、属性以及索引也会被删除）
+	DROP TABLE 表名称
+	
+	# DROP DATABASE 语句用于删除数据库  
+	DROP DATABASE 数据库名称
+
+**SQL TRUNCATE TABLE 语句**  
+
+	# RUNCATE TABLE 命令（仅仅删除表格中的数据）
+	TRUNCATE TABLE 表名称
+
+
+
+
+
+
+
+
+
+	  
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
