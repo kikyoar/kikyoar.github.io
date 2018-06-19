@@ -545,6 +545,129 @@ CREATE INDEX 实例
 	# RUNCATE TABLE 命令（仅仅删除表格中的数据）
 	TRUNCATE TABLE 表名称
 
+**23、SQL ALTER TABLE 语句**  
+
+**ALTER TABLE 语句用于在已有的表中添加、修改或删除列**  
+
+	# 在表中添加列，请使用下列语法
+	ALTER TABLE table_name ADD column_name datatype  
+	alter table test add birthday varchar(255);  
+	
+	# 改变表中列的数据类型，请使用下列语法  
+	ALTER TABLE table_name ALTER column_name type datatype  
+	alter table test alter birthday type char(30);
+	
+	# 删除表中的列，请使用下列语法  
+	ALTER TABLE table_name DROP COLUMN column_name
+	alter table test drop column birthday;  
+	
+**24、SQL AUTO INCREMENT 字段**  
+
+**postgres中通过触发器实现自增列**  
+
+	# 用于 MySQL 的语法
+	CREATE TABLE Persons
+	(
+	P_Id int NOT NULL AUTO_INCREMENT,
+	LastName varchar(255) NOT NULL,
+	FirstName varchar(255),
+	Address varchar(255),
+	City varchar(255),
+	PRIMARY KEY (P_Id)
+	)
+	
+	ALTER TABLE Persons AUTO_INCREMENT=100  
+
+**25、视图是可视化的表**  
+
+**在 SQL 中，视图是基于 SQL 语句的结果集的可视化的表**  
+**视图包含行和列，就像一个真实的表。视图中的字段就是来自一个或多个数据库中的真实的表中的字段。我们可以向视图添加 SQL 函数、WHERE 以及 JOIN 语句，我们也可以提交数据，就像这些来自于某个单一的表**  
+**数据库的设计和结构不会受到视图中的函数、where 或 join 语句的影响**  
+**可以从某个查询内部、某个存储过程内部，或者从另一个视图内部来使用视图。通过向视图添加函数、join 等等，我们可以向用户精确地提交我们希望提交的数据**
+
+
+	CREATE VIEW view_name AS
+	SELECT column_name(s)
+	FROM table_name
+	WHERE condition  
+
+**视图总是显示最近的数据。每当用户查询视图时，数据库引擎通过使用 SQL 语句来重建数据**  
+
+	# 查看视图
+	SELECT * FROM view_name
+	
+	# 可以使用下面的语法来更新视图(postgresql采用DROP VIEW再CREATE VIEW的形式)   
+	DROP VIEW view_name  
+
+	CREATE VIEW view_name AS
+	SELECT column_name(s)
+	FROM table_name
+	WHERE condition    
+	
+**26、SQL Date 函数**  
+
+**Postgresql时间函数**  
+
+函数|	返回类型|	描述|示例|结果
+---|---|----|----|-----|
+age(timestamp, timestamp)	|interval	|计算两个时间戳的时间间隔|select age(timestamp '2001-04-10',timestamp '1957-06-13');|43 years 9 mons 27 days
+age(timestamp)	|interval	|计算current_date与入参时间戳的时间间隔|select age(timestamp '2016-07-07 12:00:00');|12:00:00
+clock_timestamp()|	timestamp with time zone|当前时间戳（语句执行时变化）|	select clock_timestamp();	|2016-07-08 15:14:04.197732-07
+current_date|	date|	当前日期	|select current_date;|2016-07-08
+current_time	|time with time zone	|当前时间|select current_time;|15:15:56.394651-07
+current_timestamp	|timestamp with time zone|当前时间戳|select current_timestamp;|2016-07-08 15:16:50.485864-07  
+date_part(text, timestamp)| double precision|获取时间戳中的某个子域，其中text可以为year,month,day,hour,minute,second等	|select date_part('year',timestamp'2016-07-08 12:05:06'),date_part('month',timestamp'2016-07-08 12:05:06'),date_part('day',timestamp'2016-07-08 12:05:06'),date_part('hour',timestamp'2016-07-08 12:05:06'),date_part('minute',timestamp'2016-07-08 12:05:06'),date_part('second',timestamp'2016-07-08 12:05:06');|2016 \| 7 \| 8 \| 12 \| 5 \| 6
+date_part(text, interval)	|double precision|功能同上，只是第二个入参为时间间隔|select date_part('hour',interval'1 day 13:00:12');|13
+date_trunc(text, timestamp)|timestamp	|将时间戳截断成指定的精度，指定精度后面的子域用0补充|select date_trunc('hour',timestamp'2016-07-08 22:30:33');|2016-07-08 22:00:00
+date_trunc(text, interval)	|interval	|功能同上，只是第二个入参为时间间隔|select date_trunc('hour',interval'1 year 2 mon 3 day 22:30:33');|1 year 2 mons 3 days 22:00:00
+extract(field from timestamp)	|double precision|功能同date_part(text, timestamp)|select extract(hour from timestamp'2016-07-08 22:30:29');|22
+extract(field from interval)|	double precision|功能同date_part(text, interval)|select extract(hour from interval'1 day 13:00:12');|13
+isfinite(date)|	boolean	|测试是否为有穷日期|select isfinite(date'2016-07-08'),isfinite(date'infinity');|t,f
+isfinite(timestamp)|	boolean	|测试是否为有穷时间戳|select isfinite(timestamp'2016-07-08');|t
+isfinite(interval)|	boolean|	测试是否为有穷时间间隔|select isfinite(interval'1day 23:02:12');|t
+justify_days(interval)|interval	|按照每月30天调整时间间隔|select justify_days(interval'1year 45days 23:00:00');|	1 year 1 mon 15 days 23:00:00
+justify_hours(interval)	|interval	|按照每天24小时调整时间间隔|select justify_hours(interval'1year 45days 343hour');	|1 year 59 days 07:00:00
+justify_interval(interval)	|interval|同时使用justify_days(interval)和justify_hours(interval)|select justify_interval(interval'1year 45days 343hour');|1 year 1 mon 29 days 07:00:00
+localtime	|time	|当日时间	|select localtime;|15:45:18.892224
+localtimestamp|	timestamp|	当日日期和时间|select localtimestamp;|2016-07-08 15:46:55.181583
+make_interval(years int DEFAULT 0, months int DEFAULT 0, weeks int DEFAULT 0, days int DEFAULT 0, hours int DEFAULT 0, mins int DEFAULT 0,secs double precision DEFAULT 0.0)| interval|	创建一个时间间隔	|select make_interval(1,hours=>3);|1 year 03:00:00
+make_time(hour int, min int, sec double precision)|time|创建一个时间|select make_time(9,21,23);|	09:21:23  
+make_timestamp(year int, month int, day int, hour int, min int,sec double precision)|timestamp	|创建一个时间戳|	select make_timestamp(2016,7,8,22,55,23.5);|2016-07-08 22:55:23.5  
+make_timestamptz(year int, month int, day int, hour int, min int, sec double precision, [ timezone text ])	|timestamp with time zone|创建一个带有时区的时间戳|select make_timestamptz(2016,7,8,22,55,23.5);|2016-07-08 22:55:23.5-07  
+now()|timestamp with time zone	|当前日期和时间|select now();|2016-07-08 15:55:30.873537-07
+statement_timestamp()	|timestamp with time zone |同now()|select statement_timestamp();|2016-07-08 15:56:07.259956-07
+timeofday()|text	|当前日期和时间，包含周几，功能与clock_timestamp()类似|select timeofday();|Fri Jul 08 15:57:51.277239 2016 PDT
+transaction_timestamp()	|timestamp with time zone|事务开始时的时间戳|select transaction_timestamp();|2016-07-08 16:01:25.007153-07
+to_timestamp(double precision)|	timestamp with time zone|Convert Unix epoch(seconds since 1970-01-0100:00:00+00) to timestamp|select to_timestamp(1284352323);|2010-09-12 21:32:03-07
+pg_sleep(seconds double precision);|	 |当前会话休眠seconds秒|select pg_sleep(5);pg_sleep_for(interval)|	 |	当前会话休眠多长时间的间隔|select pg_sleep_for('5 seconds');	 
+pg_sleep_until(timestamp with time zone)| |当前会话休眠至什么时间点|select pg_sleep_until('2016-07-08 23:59:59');	 
+
+**27、SQL NULL 值**  
+
+**NULL 值是遗漏的未知数据。默认地，表的列可以存放 NULL 值**  
+**如果表中的某个列是可选的，那么我们可以在不向该列添加值的情况下插入新记录或更新已有的记录。这意味着该字段将以 NULL 值保存。NULL 值的处理方式与其他值不同。NULL 用作未知的或不适用的值的占位符。**  
+
+**无法比较 NULL 和 0；它们是不等价的,无法使用比较运算符来测试 NULL 值，比如 =, <, 或者 <>,我们必须使用 IS NULL 和 IS NOT NULL 操作符**   
+
+SQL IS NULL  
+
+	SELECT LastName,FirstName,Address FROM Persons WHERE Address IS NULL  
+	
+SQL IS NOT NULL
+
+	SELECT LastName,FirstName,Address FROM Persons WHERE Address IS NOT NULL  
+	
+
+
+
+			
+
+
+
+
+
+
+
 
 
 
