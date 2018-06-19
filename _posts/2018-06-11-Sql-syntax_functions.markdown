@@ -639,7 +639,10 @@ statement_timestamp()	|timestamp with time zone |同now()|select statement_times
 timeofday()|text	|当前日期和时间，包含周几，功能与clock_timestamp()类似|select timeofday();|Fri Jul 08 15:57:51.277239 2016 PDT
 transaction_timestamp()	|timestamp with time zone|事务开始时的时间戳|select transaction_timestamp();|2016-07-08 16:01:25.007153-07
 to_timestamp(double precision)|	timestamp with time zone|Convert Unix epoch(seconds since 1970-01-0100:00:00+00) to timestamp|select to_timestamp(1284352323);|2010-09-12 21:32:03-07
-pg_sleep(seconds double precision);|	 |当前会话休眠seconds秒|select pg_sleep(5);pg_sleep_for(interval)|	 |	当前会话休眠多长时间的间隔|select pg_sleep_for('5 seconds');	 
+pg_sleep(seconds double precision);|	 |当前会话休眠seconds秒|select pg_sleep(5);
+
+pg_sleep_for(interval)|	 |	当前会话休眠多长时间的间隔|select pg_sleep_for('5 seconds');
+
 pg_sleep_until(timestamp with time zone)| |当前会话休眠至什么时间点|select pg_sleep_until('2016-07-08 23:59:59');	 
 
 **27、SQL NULL 值**  
