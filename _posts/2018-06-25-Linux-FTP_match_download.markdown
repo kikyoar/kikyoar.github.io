@@ -277,5 +277,87 @@ FTP文件传输类型有： ascii、binary、ebcdic、image、local M 和 tenex
 	scp test_beijing.tar root@192.168.11.2:/fastdata/FINISHED_LOCATION/beijing/LZ/
 
 
+实现功能：根据已有目录名匹配远程目录文件，找出不一致的目录文件，并查找出大小不合适的文件名输出	
+	
+	#! /bin/bash 
+	# FTP name match && count size
+	# yuhao.zhang
+	# version 0.1
+	# date 2018.05.15
+	
+	
+	#定义变量
+	ftpuser="用户名"       #修改
+	remoteIp1="192.168.11.32"
+	remoteIp2="192.168.11.33"
+	remoteIp3="192.168.11.34"
+	remoteIp4="192.168.11.35"
+	remoteIp5="192.168.11.36"
+	remoteIp6="192.168.11.37"
+	passwd="密码"			#修改
+	remoteDir="l3fw_mr/kpi_import"
+	remoteDir1="l3fw_mr/kpi_import/kpi_import"
+	datetime=`date +"%Y%m%d"`
+	rm -rf $datetime.log
+	rm -rf name_notmatch$datetime.log
+	touch $datetime.log
+	echo "开始抓取远程文件目录名........................"
+	echo "**********************************************"
+	#由于目录不确定，所有IP分成俩类，此次是抓取远程文件名
+	for rname in $remoteIp1 $remoteIp3 $remoteIp4
+	do
+	    ftp -i -n $rname <<EOF | awk '/^d/{print datetime $5,$NF}' >> $datetime.log
+	    user ${ftpuser} ${passwd}
+	    cd ${remoteDir}
+	    cd $datetime
+	    ls -l
+	    bye
+	EOF
+	
+	done
+	
+	for rname in $remoteIp2 $remoteIp5 $remoteIp6
+	do
+	    ftp -i -n $rname <<EOF | awk '/^d/{print datetime $5,$NF}' >> $datetime.log
+	    user ${ftpuser} ${passwd}
+	    cd ${remoteDir1}
+	    cd $datetime
+	    ls -l
+	    bye
+	EOF
+	
+	done
+	#ftp行数统计
+	ftp_count=`awk '{print NR}' $datetime.log |tail -n1`
+	echo "目前爬取的FTP目录行数有":$ftp_count
+	eNB_count=`awk '{print NR}' eNB.log |tail -n1 | sort`
+	echo "目前eNB_ID总数为":$eNB_count
+	echo "**********************************************"
+	#大小不合适的eNB_ID
+	echo "大小不合适的eNB_ID，请查看日志size_notmatch$datetime.log"
+	echo "**********************************************"
+	sed '/12288/d' $datetime.log > a.log
+	sed '/16384/d' a.log > b.log
+	sed '/4096/d' b.log > c.log
+	sed '/20480/d' c.log > d.log
+	sed '/8192/d' d.log > size_notmatch$datetime.log
+	rm -rf a.log b.log c.log d.log
+	#名称不匹配的eNB_ID
+	echo "爬取的eNB_ID,请查看日志name_match$datetime.log"
+	echo "**********************************************"
+	echo "匹配中，请等待.............."
+	awk '{print $NF}' $datetime.log > name_notmatch1.log
+	touch name_notmatch$datetime.log
+	for line in $(cat name_notmatch1.log)
+	do
+	    eNB=`cat eNB.log | grep $line`
+		if [[ $eNB -lt 1 ]]; then
+			echo $line >> name_notmatch$datetime.log
+		fi
+	done
+	rm -rf name_notmatch1.log
+	echo "数据拉取已成功，enjoy！"
+
+
  
 
