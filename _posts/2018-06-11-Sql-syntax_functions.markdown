@@ -658,6 +658,88 @@ SQL IS NOT NULL
 
 	SELECT LastName,FirstName,Address FROM Persons WHERE Address IS NOT NULL  
 	
+	
+## SQL 函数  
+
+**SQL 拥有很多可用于计数和计算的内建函数**
+	
+内建 SQL 函数的语法是：
+
+	SELECT function(列) FROM 表. 
+	
+**函数的类型:**
+
+- Aggregate 函数(合计函数):Aggregate 函数的操作面向一系列的值，并返回一个单一的值   
+- Scalar 函数:Scalar 函数的操作面向某个单一的值，并返回基于输入值的一个单一的值  
+
+**1、SQL AVG 函数**  
+
+**AVG 函数返回数值列的平均值。NULL 值不包括在计算中** 
+
+	SELECT AVG(column_name) FROM table_name  
+
+计算 "OrderPrice" 字段的平均值
+
+	SELECT AVG(OrderPrice) AS OrderAverage FROM Orders  
+
+找到 OrderPrice 值高于 OrderPrice 平均值的客户  
+
+	SELECT Customer FROM Orders
+	WHERE OrderPrice>(SELECT AVG(OrderPrice) FROM Orders)  
+	
+**2、SQL COUNT() 函数**  
+
+**COUNT() 函数返回匹配指定条件的行数**  
+
+SQL COUNT(column_name) 语法
+
+	COUNT(column_name) 函数返回指定列的值的数目（NULL 不计入）
+	SELECT COUNT(column_name) FROM table_name  
+
+	COUNT(*) 函数返回表中的记录数  
+	SELECT COUNT(*) FROM table_name
+	
+	COUNT(DISTINCT column_name) 函数返回指定列的不同值的数目  
+	SELECT COUNT(DISTINCT column_name) FROM table_name
+
+实例  
+
+	计算客户 "Carter" 的订单数
+	SELECT COUNT(Customer) AS CustomerNilsen FROM Orders
+	WHERE Customer='Carter'
+	
+	计算 "Orders" 表中不同客户的数目
+	SELECT COUNT(DISTINCT Customer) AS NumberOfCustomers FROM Orders  
+	
+**3、FIRST() 函数**  
+
+**FIRST() 函数返回指定的字段中第一个记录的值，可使用 ORDER BY 语句对记录进行排序**  
+
+	SELECT FIRST(column_name) FROM table_name  
+	
+	查找 "OrderPrice" 列的第一个值  
+	SELECT FIRST(OrderPrice) AS FirstOrderPrice FROM Orders
+	
+**postgresql用法**
+
+order by后加个limit1
+
+	select column_name from table_name order by column_name  limit 1
+	
+**4、SQL LAST() 函数**  
+
+**LAST() 函数返回指定的字段中最后一个记录的值、可使用 ORDER BY 语句对记录进行排序**
+
+	SELECT LAST(column_name) FROM table_name
+	
+	查找 "OrderPrice" 列的最后一个值
+	SELECT LAST(OrderPrice) AS LastOrderPrice FROM Orders  
+	
+**postgresql用法**
+
+	select column_name from table_name order by column_name desc limit 1
+
+
 
 
 
