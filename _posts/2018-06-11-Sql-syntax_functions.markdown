@@ -737,7 +737,98 @@ order by后加个limit1
 	
 **postgresql用法**
 
-	select column_name from table_name order by column_name desc limit 1
+	select column_name from table_name order by column_name desc limit 1  
+	
+**5、SQL MAX() 函数**   
+
+**MAX 函数返回一列中的最大值。NULL 值不包括在计算中**
+
+	SELECT MAX(column_name) FROM table_name  
+	
+**MIN 和 MAX 也可用于文本列，以获得按字母顺序排列的最高或最低值**  
+
+查找 "OrderPrice" 列的最大值
+
+	SELECT MAX(OrderPrice) AS LargestOrderPrice FROM Orders  
+	
+**6、SQL MIN() 函数**  
+
+**MIN 函数返回一列中的最小值。NULL 值不包括在计算中**  
+
+	SELECT MIN(column_name) FROM table_name  
+	
+**MIN 和 MAX 也可用于文本列，以获得按字母顺序排列的最高或最低值**  
+
+查找 "OrderPrice" 列的最小值
+
+	SELECT MIN(OrderPrice) AS SmallestOrderPrice FROM Orders  
+	
+**7、SQL SUM() 函数**  
+
+**SUM 函数返回数值列的总数（总额）**  
+
+	SELECT SUM(column_name) FROM table_name  
+	
+查找 "OrderPrice" 字段的总数  
+
+	SELECT SUM(OrderPrice) AS OrderTotal FROM Orders
+	
+**8、SQL GROUP BY 语句**  
+
+**合计函数 (比如 SUM) 常常需要添加 GROUP BY 语句**
+**GROUP BY 语句用于结合合计函数，根据一个或多个列对结果集进行分组**  
+
+	SELECT column_name, aggregate_function(column_name)
+	FROM table_name
+	WHERE column_name operator value
+	GROUP BY column_name  
+	
+查找每个客户的总金额（总订单）
+
+	SELECT Customer,SUM(OrderPrice) FROM Orders
+	GROUP BY Customer
+
+**GROUP BY 一个以上的列**  
+
+	SELECT Customer,OrderDate,SUM(OrderPrice) FROM Orders
+	GROUP BY Customer,OrderDate  
+	
+**9、SQL HAVING 子句**  
+
+**在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与合计函数一起使用**  
+
+	SELECT column_name, aggregate_function(column_name)
+	FROM table_name
+	WHERE column_name operator value
+	GROUP BY column_name
+	HAVING aggregate_function(column_name) operator value
+
+查找订单总金额少于 2000 的客户  
+
+	SELECT Customer,SUM(OrderPrice) FROM Orders
+	GROUP BY Customer
+	HAVING SUM(OrderPrice)<2000  
+	
+查找客户 "Bush" 或 "Adams" 拥有超过 1500 的订单总金额  
+
+	SELECT Customer,SUM(OrderPrice) FROM Orders
+	WHERE Customer='Bush' OR Customer='Adams'
+	GROUP BY Customer
+	HAVING SUM(OrderPrice)>1500  
+	
+**10、SQL NOW() 函数**  
+
+**NOW 函数返回当前的日期和时间**  
+
+	SELECT NOW() FROM table_name  
+	
+显示当天的日期所对应的名称和价格
+
+	SELECT ProductName, UnitPrice, Now() as PerDate FROM Products   
+	
+
+
+
 
 
 
