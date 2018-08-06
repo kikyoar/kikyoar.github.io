@@ -43,10 +43,21 @@ tags:
 
 (1)传统的for循环方式
 	
-	for(int i=0;i<array.length;i++)
-	{
-	      System.out.println(a[i]);
-	}
+    public static void PrintArray(int[] arr)
+    {
+        System.out.print("[");
+        for (int x=0;x<arr.length;x++)
+        {
+            if (x!=arr.length-1)
+            {
+                System.out.print(arr[x]+", ");
+            }
+            else
+            {
+                System.out.print(arr[x]+"]");
+            }
+        }
+    }
 
 
 (2)for each循环
