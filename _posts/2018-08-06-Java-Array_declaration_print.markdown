@@ -4,7 +4,7 @@ title:      "Java数组的三种打印方式"
 subtitle:   "Java数组声明的几种方式"
 date:       2018-08-06
 author:     "kikyoar"
-header-img: "img/post-bg-linux-version.jpg"
+header-img: "img/post-bg-Java-version.jpg"
 tags:
     - Java
 ---  
