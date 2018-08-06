@@ -6,7 +6,7 @@ date:       2018-07-16
 author:     "kikyoar"
 header-img: "img/post-bg-linux-version.jpg"
 tags:
-    - zabbix
+    - Zabbix
 ---  
 
 ## 查看数据库,表占用磁盘大小  
