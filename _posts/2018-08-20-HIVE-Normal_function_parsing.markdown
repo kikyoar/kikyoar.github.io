@@ -1210,11 +1210,11 @@ tags:
 	hive> select size(map('100','tom','101','mary')) from iteblog;
 	2  
 
-**array类型长度函数: size(Array<T>)**  
+**array类型长度函数: size(Array\<T\>)**  
 
-语法: size(Array<T>)  
-返回值: int  
-说明: 返回array类型的长度  
+语法: size(Array<T>)    
+返回值: int    
+说明: 返回array类型的长度    
 
 	hive> select size(array('100','101','102','103')) from iteblog;
 	4  
