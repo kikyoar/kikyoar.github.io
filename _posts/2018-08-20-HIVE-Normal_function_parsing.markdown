@@ -1210,21 +1210,21 @@ tags:
 	hive> select size(map('100','tom','101','mary')) from iteblog;
 	2  
 
-**array类型长度函数: size(Array\<T\>)**  
+**array类型长度函数: size(Array\<T\>)**    
 
-语法: size(Array<T>)    
-返回值: int    
-说明: 返回array类型的长度    
+语法: size(Array<T>)      
+返回值: int      
+说明: 返回array类型的长度      
 
 	hive> select size(array('100','101','102','103')) from iteblog;
 	4  
 
-**类型转换函数**  
+**类型转换函数**    
 
-类型转换函数: cast  
+类型转换函数: cast    
 语法: cast(expr as <type>)  
-返回值: Expected "=" to follow "type"  
-说明: 返回转换后的数据类型  
+返回值: Expected "=" to follow "type"    
+说明: 返回转换后的数据类型    
 
 	hive> select cast(1 as bigint) from iteblog;
 	1
