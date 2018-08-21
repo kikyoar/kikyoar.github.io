@@ -6,7 +6,7 @@ date:       2018-06-04
 author:     "kikyoar"
 header-img: "img/post-bg-python-version.jpg"
 tags:
-    - Linux
+    - Python
 ---   
 
 ## 基础语法
