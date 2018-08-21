@@ -240,4 +240,4 @@ top命令包含更多的指标统计，相当于一个综合命令
 
 下面的图片很好的展示了各个命令的主要作用，如使用vmstat查看系统的整体性能，mpstat用于查看cpu的性能，pidstat用于查看进程的状态，iostat用于查看io的状态，free用于产看内存的状态，sar用于查看网络的状态等  
 
-![performance](http://kikyoar/img/linux_performance_01.png)
+![performance](http://kikyoar.com/img/linux_performance_01.png)
