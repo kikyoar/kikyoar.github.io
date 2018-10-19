@@ -1,0 +1,47 @@
+---
+layout:     post
+title:      "Hadoop 笔记001"
+subtitle:   "hadoop权威指南日常记录"
+date:       2018-09-27
+author:     "kikyoar"
+header-img: "img/post-bg-hadoop-version.jpg"
+tags:
+    - Hadoop
+--- 
+
+
+## Hadoop之为何不使用RAID？  
+
+
+- **尽管建议采用RAID(Redundant Array of Independent Disk,即磁盘阵列)作为namenode的存储器以保护元数据**，但是若将RAID作为datanode的存储设备则不会给HDFS带来益处。HDFS所提供的节点间数据复制技术已可满足数据备份需求，无需使用RAID的冗余机制   
+   
+- 此外，尽管RAID条带化技术(RAID 0)被广泛用户提升性能，但是其速度仍然比用在HDFS里的JBOD(Just a Bunch Of Disks)配置慢。JBOD在所有磁盘之间循环调度HDFS块。RAID 0的读写操作受限于磁盘阵列中最慢盘片的速度，而JBOD的磁盘操作均独立，因而平均读写速度高于最慢盘片的读写速度。需要强调的是，各个磁盘的性能在实际使用中总存在相当大的差异，即使对于相同型号的磁盘。针对某一雅虎集群的[评测报告](http://markmail.org/message/xmzc45zi25htr7ry)表明，在一个测试(Gridmix)中，JBOD比RAID 0 快10%；在另一测试(HDFS写吞吐量)中，JBOD比RAID 0 快30%  
+
+- 最后，若JBOD配置的某一磁盘出现故障，HDFS可以忽略该磁盘，继续工作。而RAID的某一盘片故障会导致整个磁盘阵列不可用，进而使相应节点失效   
+
+
+## Hadoop配置文件  
+|文件名称|格式|描述|  
+|:--:|:--:|:--:|  
+hadoop-env.sh|Bash脚本|脚本中要用到的环境变量，以运行Hadoop|
+mapred-env.sh|Bash脚本|脚本中要用到的环境变量，以运行MapReduce(覆盖hadoop-env.sh中设置的变量)|  
+yarn-env.sh|Bash脚本|脚本中要用到的环境变量，以运行Yarn(覆盖hadoop-env.sh中设置的变量)|  
+core-site.xml|Hadoop配置XML|Hadoop Core的配置项，例如HDFS、MapReduce、Yarn常用的I/O设置等
+hdfs-site.xml|Hadoop配置XML|Hadoop 守护进程的配置项，例如namenode，辅助namenode和datanode等  
+slaves|纯文本|运行datanode和节点管理器的机器列表
+hadoop-metrics2.properties|Java属性|控制如何在Hadoop上发布度量的属性
+log4j.properties|Java属性|系统日志文件，namenode审计日志，任务JVM进程的任务日志的属性
+hadoop-policy.xml|Java属性|安全模式下运行hadoop时的访问控制列表的配置项  
+
+
+## 一个守护进程究竟需要多少内存？
+
+由于namenode会在内存中维护所有文件的每个数据块的引用，因此namenode很可能会“吃光”分配给它的所有内存。很难套用一个公式来精确计算内存需求量，因为内存需求量取决于多个因素，包括每个文件包含的数据块数、文件名称的长度、文件系统中的目录数等。此外，在不同Hadoop版本下，namenode的内存需求也不相同  
+
+1000MB内存（默认配置）通常足够管理数百万个文件·但是根据经验来看，保守估计需要为每1百万个数据块分配1000MB内存空间  
+
+**以一个含200节点的集群为例，假设每个节点有24TB磁盘空间，数据块大小是128MB，复本数是3的话，则约有2百万个数据块（甚至更多）：200×24000000MB/(128MBx3)。因此，在本例中，namenode的内存空间最好一开始设为12000MB**  
+
+也可以只增加namenode的内存分配量而不改变其他Hadoop守护进程的内存分配，即设置hadoop-env.sh文件的HADOOP_NAMENODE_OPTS属性包含一个JVM选项以设定内存大小·HADOOP_NAMENODE_OPTS允许向namenode的JVM传递額外的选项。以SunJVM为例，-Xmx2000m选项表示为namenode分配2000MB内存空间  
+
+由于辅助namenode的内存需求量和主namenode差不多，所以一旦更改namenode的内存分配的话还需对辅助namenode做相同更改（使用HADOOP_SECONDARYNAMENODE_OPTS变量）
