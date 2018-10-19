@@ -166,12 +166,15 @@ s.charAt(n)将返回位置 n 的代码单元，n介于0～s.length()-1之间。�
 		int indexOf( String, int fromIndex )
 		int indexOf( int cp )
 		int indexOf( int cp, int fromIndex )
+
 	返回与字符串str或代码点cp匹配的第一个子串的开始位置。这个位置从索引0或fromIndex开始计算。如果在原始串中不存在str，返回-1  
 		
 		int lastIndexOf( String str )
 		int lastIndexOf( String str, int fromIndex )
 		int lastIndexOf( int cp )
 		int lastIndexOf( int cp, int fromIndex )
+	
+
 	返回与字符串str或代码点cp匹配的最后一个子串的开始位置。这个位置从原始串尾端或fromIndex开始计算
 
 - int length() 返回字符串的长度
