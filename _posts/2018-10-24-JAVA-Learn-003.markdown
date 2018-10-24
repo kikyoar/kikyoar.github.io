@@ -6,7 +6,7 @@ date:       2018-10-24
 author:     "kikyoar"
 header-img: "img/post-bg-Java-version.jpg"
 tags:
-    - JAVA
+    - Java
 ---  
 
 ## 第三章  
@@ -212,8 +212,11 @@ tags:
 
 - switch 建议判断固定值的时候用 
 - if 建议判断区间或范围的时候用
-                                          
+                  
+                       
+ 
 	
-                        
+               
+         
 	
 

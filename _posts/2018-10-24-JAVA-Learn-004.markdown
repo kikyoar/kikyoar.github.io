@@ -6,7 +6,7 @@ date:       2018-10-24
 author:     "kikyoar"
 header-img: "img/post-bg-Java-version.jpg"
 tags:
-    - JAVA
+    - Java
 ---  
 
 ## 第四章  
@@ -355,7 +355,9 @@ tags:
 			return 返回值; 
 		}   
 		
-- 格式说明  	- 修饰符:public protected private static 
+- 格式说明  
+
+	- 修饰符:public protected private static 
 	- 返回值类型:就是功能结果的数据类型
 	- 方法名:符合命名规则即可,方便我们的调用
 	- 参数:

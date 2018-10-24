@@ -6,7 +6,7 @@ date:       2018-10-24
 author:     "kikyoar"
 header-img: "img/post-bg-Java-version.jpg"
 tags:
-    - JAVA
+    - Java
 ---   
 
 ## 第五章 
