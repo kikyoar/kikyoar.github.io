@@ -1,0 +1,510 @@
+---
+layout:     post
+title:      "JAVA语法笔记---第五章"
+subtitle:   "JAVA语法备查"
+date:       2018-10-24
+author:     "kikyoar"
+header-img: "img/post-bg-Java-version.jpg"
+tags:
+    - JAVA
+---   
+
+## 第五章 
+
+**数组概述**  
+
+- 概念:数组是存储同一种数据类型多个元素的集合.也可以看成是一个容器.数组既可以存储基本数据类型，也可以存储引用数据类型  
+- 应用场景:为了存储同种数据类型的多个值  
+
+  - 数组定义格式
+
+	   - 格式 1:元素类型[] 数组名 = new 元素类型[元素个数或数组长度];   
+			例:int[] arr = new int[8];
+	   - 格式 2:元素类型[] 数组名 = new 元素类型[]{元素，元素，......};   
+			例:int []arr = new int[]{3,5,1,7};     
+			例:int []arr ={3,5,7,1};  
+			
+  - 数组的初始化  
+  
+      - Java 中的数组必须先初始化,然后才能使用
+      - 所谓初始化:就是为数组中的数组元素分配内存空间，并为每个数组元素赋值
+  
+**数组的初始化分为动态初始化和静态初始化**
+
+- 动态初始化:初始化时只指定数组长度，由系统为数组分配初始值 
+
+	- 格式:数据类型[] 数组名 = new 数据类型[数组的长度];
+	- 举例:  
+			int[] arr = new int[3];  
+			解释:定义了一个 int 类型的数组，这个数组中可以存放 3 个 int 类型的值  
+		
+- 静态初始化:初始化时指定每个数组元素的初始值，由系统决定数组长度  
+	
+	- 格式:数据类型[] 数组名 = new 数据类型[]{元素 1,元素 2,...}; 
+	- 简化格式:数据类型[] 数组名 = {元素 1,元素 2,...};
+	- 举例:  
+		int[] arr = new int[]{3,7,5,4};   
+		int[] arr = {3,7,5,4};  
+
+**Java 中的内存分配以及栈和堆的区别**  
+
+- 需要在内存中的分配空间.为了提高运算效率，就对空间进行了不同区域的划分， 因为每一片区域都有特定的处理数据方式和内存管理方式   
+- 内存结构:栈、堆、方法区、本地方法区、寄存器.(java 对内存的划分原因: 每片内存处理的方式不同)  
+
+	- 栈内存:暂时存储.用于存储局部变量，当数据使用完，所占空间会自动释放   
+	- 堆内存:存储数组和对象，通过 new 建立的实例都存放在堆内存中，任何的" 引用数据类型"的"值"都存在堆里
+	- 方法区:静态存储区、构造函数、常量池、线程池，方法字节码
+	- 本地方法区:window 系统占用 ，被定义为 native 的方法
+	- 寄存器:存储正要准备交给 CPU 处理的字节码   
+
+**数组操作的两个常见小问题越界和空指针**  
+
+- ArrayIndexOutOfBoundsException:数组索引越界异常   
+原因:你访问了不存在的索引   
+
+- NullPointerException:空指针异常       
+原因:数组已经不在指向堆内存了.而你还用数组名去访问元素  
+
+**举个栗子1**  
+
+	public class ArrayDemo1 {
+	    private ArrayDemo1(){}//该类中的方法都是静态的，所以该类不需要创建对象
+	                          //为了保证不让其他创建该类对象，可以将构造函数私有化
+	    public static void main(String[] args) {
+	
+	        int[] arr = new int[] {5,6,7,8,100,22,4,119,3};
+	//数组的长度
+	        System.out.println(Arrays.toString(arr)); //数组的打印方式
+	        System.out.println(arr.length);
+	        Get_Max(arr);
+	        Get_Max2(arr);
+	        Get_Min(arr);
+	        Get_Min2(arr);
+	//提取数组的最大值、最小值
+	    }
+	    //最大值-----通过数值比较
+	    public static void Get_Max(int[] arr)
+	    {
+	        int big = arr[0];
+	        for (int x=1;x<arr.length;x++)
+	        {
+	            if (big < arr[x])
+	            {
+	                big = arr[x];
+	            }
+	
+	        }
+	        System.out.println("用数值得到的该数组最大值是"+big);
+	    }
+	
+	    //最大值------通过角标比较
+	    public static void Get_Max2(int[] arr)
+	    {
+	        int max = 0;
+	        for (int x =1;x<arr.length;x++) {
+	            if (arr[max] < arr[x]) {
+	                max = x;
+	            }
+	        }
+	        System.out.println("用角标得到的该数组最大值是"+arr[max]);
+	    }
+	
+	    //最小值-------通过数值比较
+	    public static void Get_Min(int[] arr)
+	    {
+	        int Min = arr[0];
+	        for (int x=1;x<arr.length;x++)
+	        {
+	            if (Min > arr[x])
+	            {
+	                Min = arr[x];
+	            }
+	        }
+	        System.out.println("用数值得到该数组的最小值是"+Min);
+	    }
+	
+	    //最小值--------通过角标比较
+	    public static void Get_Min2(int[] arr)
+	    {
+	     int Min = 0;
+	     for (int x=1;x<arr.length;x++)
+	     {
+	         if (arr[Min] > arr[x])
+	         {
+	             Min = x;
+	         }
+	     }
+	     //int[] arr = new int[] {5,6,7,8,100,22,4,119,3};
+	     System.out.println("用角标得到该数组的最小值是"+arr[Min]);
+	    }
+	
+	}  
+	
+**举个栗子2**  
+
+	public class ArrayDemo2 {
+	    public static void main(String[] args) {
+	
+	    int arr[]={5,6,7,8,100,22,4,119,3};
+	    Rank3(arr);
+	    Rank2(arr);
+	    Rank1(arr);
+	    Rank(arr);
+	    PrintArray(arr);
+	
+	    //自带函数调用排序
+	        Arrays.sort(arr);
+	
+	    }
+	    //打印数组函数
+	
+	    public static void PrintArray(int[] arr)
+	    {
+	        System.out.print("[");
+	        for (int x=0;x<arr.length;x++)
+	        {
+	            if (x!=arr.length-1)
+	            {
+	                System.out.print(arr[x]+", ");
+	            }
+	            else
+	            {
+	                System.out.print(arr[x]+"]");
+	            }
+	        }
+	        System.out.println();
+	    }
+	
+	    //按大小排序-----选择排序法
+	
+	    public static void Rank(int[] arr)
+	    {
+	        for (int x=0;x<arr.length-1;x++)
+	        {
+	            for (int y=x+1;y<arr.length;y++)
+	            {
+	                if (arr[x] > arr[y])
+	                {
+	                    /*
+	                    int temp =arr[x];
+	                    arr[x] = arr[y];
+	                    arr[y] = temp;
+	                    */
+	                    Swap(arr,x,y);
+	                }
+	            }
+	
+	        }
+	        //System.out.println(Arrays.toString(arr));//数组的打印方式
+	        PrintArray(arr);
+	
+	    }
+	    //按大小排序------选择排序法（更换位置）-----比较有效率
+	    public static void Rank3(int[] arr)
+	    {
+	        for (int x=0;x<arr.length-1;x++)
+	        {
+	            int num=arr[x];
+	            int index =x;
+	            for (int y =x+1;y<arr.length;y++)
+	            {
+	                if (num > arr[y])
+	                {
+	                    num = arr[y];
+	                    index = y;
+	                }
+	
+	            }
+	            if (index !=x)
+	            {
+	                Swap(arr,x,index);
+	            }
+	        }
+	        System.out.println(Arrays.toString(arr));
+	    }
+	
+	    //按大小排序-------冒泡排序法
+	
+	    public static void Rank1(int[] arr)
+	    {
+	        for (int x=0;x<arr.length-1;x++)
+	        {
+	            for (int y=0;y<arr.length-1-x;y++)//arr.length-1是避免角标越界，-x是为了每次外循环增加一次，内循环参与比较的元素递减
+	            if (arr[y]>arr[y+1])
+	            {
+	                /*
+	                int temp = arr[y];
+	                arr[y] = arr[y+1];
+	                arr[y+1] = temp;
+	                */
+	                Swap(arr,y,y+1);
+	
+	            }
+	
+	        }
+	        System.out.println(Arrays.toString(arr));
+	    }
+	
+	    public static void Rank2(int[] arr)
+	    {
+	        for (int x=arr.length-1;x>0;x--)
+	        {
+	            for (int y = 0; y < x; y++)
+	            {
+	            if (arr[y] > arr[y + 1])
+	                {
+	                    /*
+	                    int temp = arr[y];
+	                    arr[y] = arr[y + 1];
+	                    arr[y + 1] = temp;
+	                    */
+	                    Swap(arr,y,y+1);
+	
+	                }
+	            }
+	        }
+	        System.out.println(Arrays.toString(arr));
+	    }
+	
+	    //数组位置调换函数
+	    public static void Swap(int[] arr,int a,int b)
+	    {
+	        int temp = arr[a];
+	        arr[a] = arr[b];
+	        arr[b] = temp;
+	    }
+	
+	}   
+	
+	
+**举个栗子3**	 
+
+	public class ArrayDemo3 {
+	    public static void main(String[] args) {
+	
+	    int[] arr = new int[] {24,30,42,54,12,33,15};
+	    int index = GetIndex(arr,42);
+	    System.out.println("index="+index);
+	    int[] arr1 = new int[] {11,12,13,14,100,102,130,150};
+	    int index1 = BinarySearch1(arr1,102);
+	    System.out.println("index1="+index1);
+	
+	    }
+	    /*
+	    数组常见操作：查找
+	     */
+	    public static int GetIndex(int[] arr,int key)
+	    {
+	        for (int x=0;x<arr.length;x++)
+	        {
+	            if (arr[x]==key)
+	            {
+	                return x;
+	            }
+	        }
+	        return -1;//数组角标从0开始，所以返回-1表示该key不存在
+	    }
+	    /*
+	    有序数据折半查找法---第一种办法
+	     */
+	
+	    public static int BinarySearch(int[] arr,int key)
+	    {
+	        int min = 0 ;
+	        int max = arr.length;
+	        int mid = (min + max) / 2;
+	        while (arr[mid]!=key)
+	        {
+	            if (key > arr[mid])
+	            {
+	                min = mid + 1;
+	
+	            }
+	            if (key < arr[mid])
+	            {
+	                max = mid - 1;
+	            }
+	            if (max < min)
+	            {
+	                return -1;
+	            }
+	            mid = (min + max) / 2;
+	        }
+	        return mid;
+	    }
+	    /*
+	    有序数组折半查找法---第二种办法
+	     */
+	
+	    public static int BinarySearch1(int[] arr,int key)
+	    {
+	        int min = 0;
+	        int max = arr.length;
+	        int mid = (min + max) / 2;
+	        while (max > min)
+	        {
+	            if (key > arr[mid])
+	            {
+	                min = mid + 1;
+	            }
+	            else if (key < arr[mid])
+	            {
+	                max = max - 1;
+	            }
+	            else
+	            {
+	                return mid;
+	            }
+	            mid = (min + max) / 2;
+	        }
+	        return -1;
+	    }
+	
+	}  
+	
+**举个栗子4**  
+
+	public class ArrayDemo4 {
+	    public static void main(String[] args) {
+	
+	        System.out.println("ToHex的结果是：");
+	        ToHex(60);
+	        System.out.println("ToHex_1的结果是：");
+	        ToHex_1(60);
+	        System.out.println();
+	        System.out.println("ToHex_2的结果是：");
+	        ToHex_2(60);
+	/*
+	获取一个整数的十六进制
+	 */
+	    }
+	    public  static void ToHex(int num)
+	    {
+	           for (int x=1;x<=8;x++)
+	           {
+	               int temp = num & 15;
+	               if (temp > 9)
+	               {
+	                   System.out.println((char)(temp-10+'A'));//强制转换
+	               }
+	               else
+	               {
+	                   System.out.println(temp);
+	
+	               }
+	
+	               num = num >>> 4;
+	           }
+	
+	    }
+	/*
+	什么时候使用数组呢？
+	如果数组出现对应关系，而且对应关系的一方是有序的数字编号，并作为角标使用，这时就必须想到数组的使用
+	就可以将这些数据存储到数组中
+	根据运算的结果作为角标直接去查数组中对应的元素即可
+	这种方式：称为查表法
+	 */
+	// 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+	// 0,1,2,3,4,5,6,7,8,9, A, B, C, D, E, F----十六进制
+	    public static void ToHex_1(int num)
+	    {
+	        //定义一个数组
+	        char[] chs = new char[] {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+	        for (int x = 0;x < 8;x++)//存储空间为8个字节，1个字节是4位（0000-0000-0000-0000-0000-0000-0000-0000）
+	        {
+	            int temp = num & 15;
+	            System.out.print(chs[temp]);
+	            num = num >>> 4;
+	        }
+	    }
+	    public static void  ToHex_2(int num)
+	    {
+	        //定义一个数组
+	        char[] chs = new char[] {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+	        /*
+	        一会儿查表的时候会查到比较多的数据
+	        数据一多，就先存储起来
+	        所以定义一个数组作为临时容器
+	         */
+	        char[] arr = new char[8];
+	        int pos = arr.length;
+	        while (num !=0)
+	        {
+	            int temp = num & 15;
+	            arr[--pos]=chs[temp];
+	            num = num >>> 4;
+	
+	        }
+	        for (int x=pos;x<arr.length;x++)
+	        {
+	            System.out.println(arr[x]);
+	        }
+	    }
+	}
+	
+
+**二维数组概述和格式的讲解**
+
+
+	public class Array2Demo1 {
+	    public static void main(String[] args) {
+	
+	        //[I@511d50c0    @左边是实体的类，@右边是实体的哈希值
+	        //创建一个二维数组，该数组中有3个一维数组，一维数组中包含2个元素
+	        /*
+	        int[][] arr=new int[3][2];//3代表二维数组的长度，2代表一维数组的长度
+	        System.out.println(arr);//直接打印二维数组
+	        System.out.println(arr[0]);//打印二维数组中额角标为0的一维数组
+	        System.out.println(arr[0][0]);//打印二维数组中角标为0的一维数组中的角标为0的元素
+	
+	        System.out.println(arr.length);//打印二维数组的长度，其实就是一维数组的个数
+	        System.out.println(arr[1].length);//打印二维数组中角标为1的一位数组的个数
+	        */
+	        int arr_demo [][]={{1,2,3},{4,5,6},{7,8,9}};
+	        Arr2(arr_demo);
+	    }
+	
+	    //输出二维数组
+	    public static void  Arr2(int[][] arr)
+	    {
+	        System.out.println("{");
+	        for (int x = 0;x < arr.length;x++)
+	        {
+	            System.out.print("\t{");
+	           for (int j =0;j<arr[x].length;j++)
+	           {
+	               System.out.print(arr[x][j]+",");
+	           }
+	           System.out.println("}");
+	
+	        }
+	        System.out.println("}");
+	    }
+
+	}	
+
+
+- 注意事项  
+
+	- 以下格式也可以表示二维数组  
+
+		- 数据类型 数组名[][] = new 数据类型[m][n]; 
+		- 数据类型[] 数组名[] = new 数据类型[m][n];   
+
+	- 举例:
+		
+		- int[][] arr = new int[3][2];  
+		- System.out.println(arr); [[I@e6f7d2 哈希值，二维数组实体
+		- System.out.println(arr[0]); [I@3e0ebb 一维数组实体
+		- System.out.println(arr[0][0]);//0 一维数组中的元素  	
+   - 解释:  
+   
+	   - 定义了名称为 arr 的二维数组
+	   - 二维数组中有 3 个一维数组
+	   - 每一个一维数组中有 2 个元素
+	   - 一维数组的名称分别为 arr[0], arr[1], arr[2]
+      - 给第一个一维数组 1 脚标位赋值为 78 写法是:arr[0][1] = 78;   
+
+
+
+	
