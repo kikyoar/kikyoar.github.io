@@ -1,22 +1,22 @@
 ---
 layout:     post
-title:      "JAVA语法笔记"
+title:      "JAVA语法笔记---第一章"
 subtitle:   "JAVA语法备查"
-date:       2018-10-24
+date:       2018-10-19
 author:     "kikyoar"
 header-img: "img/post-bg-Java-version.jpg"
 tags:
     - JAVA
 --- 
 ## 第一章
-**计算机语言**:人与计算机交流的方式，如果人要与计算机交流，那么就要学习计算机语。计算机语言有很多种，如: C，C++，Java 等  
+**计算机语言**:人与计算机交流的方式，如果人要与计算机交流，那么就要学习计算机语.计算机语言有很多种，如: C，C++，Java 等  
 
 **人机交互**:软件的出现实现了人与计算机之间的更好的交互  
 
 **交互方式**:
 	
 - 图形化界面(Graphical User Interface GUI):这种方式简单直观，使用者易于接受，容易上手操作  
-- 命令行方式(Command Line Interface CLI):需要有一个控制台，输入特定的指令，让计算机完成一些操作。较为麻烦，需要记录住一些命令
+- 命令行方式(Command Line Interface CLI):需要有一个控制台，输入特定的指令，让计算机完成一些操作.较为麻烦，需要记录住一些命令
 
 **Java 语言概述**:  
 
@@ -43,14 +43,14 @@ tags:
    - 是为开发电子消费产品和嵌入式设备提供的解决方案  
    - 该技术体系主要应用于小型电子消费类产品，如手机中的应用程序等  
 
-**Java5.0 版本后，三种技术架构分别更名为 JAVAEE、JAVASE、JAVAME。由于现在已经出现了 Android、iOS、Windows Phone 等手机操作系统，所以 J2ME 架构基本上已经不用了。目前，流行的手机软件都是基于这些最新的手机操作系统进行开发**   
+**Java5.0 版本后，三种技术架构分别更名为 JAVAEE、JAVASE、JAVAME.由于现在已经出现了 Android、iOS、Windows Phone 等手机操作系统，所以 J2ME 架构基本上已经不用了.目前，流行的手机软件都是基于这些最新的手机操作系统进行开发**   
 
 **跨平台性**:  
 
 - 什么是跨平台性?  
 		通过 Java 语言编写的应用程序在不同的系统平台上都可以运行  
 - 原理是什么?  
-		只要在需要运行 java 应用程序的操作系统上，先安装一个 Java 虚拟机(JVM Java VirtualMachine)即可。 由 JVM 来负责 Java 程序在该系统中的运行  
+		只要在需要运行 java 应用程序的操作系统上，先安装一个 Java 虚拟机(JVM Java VirtualMachine)即可. 由 JVM 来负责 Java 程序在该系统中的运行  
 		![JVM负责JAVA程序](http://kikyoar.com/img/jvm-001.jpg)  
 
 **java 语言是跨平台，jvm 不是跨平台的**    
@@ -58,9 +58,9 @@ tags:
 **什么是 JRE,JDK?**  
 
 - JRE(Java Runtime Environment Java 运行环境):  
-	包括 Java 虚拟机(JVM Java Virtual Machine)和 Java 程序所需的核心类库等，如果想要运行一个开发好的 Java 程序，计算机中只需要安装 JRE 即可。 `Jre=jvm+类库`   
+	包括 Java 虚拟机(JVM Java Virtual Machine)和 Java 程序所需的核心类库等，如果想要运行一个开发好的 Java 程序，计算机中只需要安装 JRE 即可. `Jre=jvm+类库`   
 - JDK(Java Development Kit Java 开发工具包):    
-	JDK 是提供给 Java 开发人员使用的，其中包含了 java 的开发工具，也包括了 JRE。所以安装了 JDK，就不用在单独安装 JRE 了。 其中的开发工具:编译工具(javac.exe) 打包工具(jar.exe)等。 `Jdk=开发工具+jre`   
+	JDK 是提供给 Java 开发人员使用的，其中包含了 java 的开发工具，也包括了 JRE.所以安装了 JDK，就不用在单独安装 JRE 了. 其中的开发工具:编译工具(javac.exe) 打包工具(jar.exe)等. `Jdk=开发工具+jre`   
 	
 **使用 JDK 开发完成的 java 程序，交给 JRE 去运行**  
 
