@@ -1,0 +1,409 @@
+---
+layout:     post
+title:      "JAVA语法笔记---第四章"
+subtitle:   "JAVA语法备查"
+date:       2018-10-24
+author:     "kikyoar"
+header-img: "img/post-bg-Java-version.jpg"
+tags:
+    - JAVA
+---  
+
+## 第四章  
+
+**循环结构**  
+
+循环语句顾名思义就是当满足循环条件的情况下，反复执行某一段代码，这段被重复执行的代码被称为循环体语句，当反复把循环判断执行这个循环体时，需要在合适的时条件修改为 false，从而结束循环，否则循环将一直执行下去，形成死循环
+
+**循环结构的分类**  
+
+一般我们将循环结构分为三种: for 循环，while 循环，以及 do...while()循环  
+
+**for 循环**:  
+
+- 格式
+
+		for(初始化表达式;条件表达式;循环后的操作表达式) 
+		{ 
+			循环体;
+		}  
+		
+- 执行流程  
+
+	- a:执行初始化语句 
+	- b:执行判断条件语句,看其返回值是 true 还是 false，如果是 true，就继续执行，如果是 false，就结束循环
+	- c:执行循环体语句
+	- d:执行循环后的操作表达式 
+	- e:回到 b 继续  
+	
+- 举个栗子  
+
+		//需求：1-10数字的和
+		 int sum = 0;
+		 for (int i = 1; i < 11; i ++){
+		     sum = sum + i;
+		 }
+		 System.out.println("sum="+sum);	  
+
+- 注意事项	 
+	 
+	- a:判断条件语句无论简单还是复杂结果是 boolean 类型
+	- b:循环体语句如果是一条语句，大括号可以省略;如果是多条语句，大括号不能省略.建议永远不要省略
+	- c:一般来说:有左大括号就没有分号    
+
+**while 循环**:  
+
+- 格式  
+
+	- 完整格式:  
+
+			初始化语句;
+			while(判断条件语句) { 
+				循环体语句;
+				控制条件语句;
+			}  
+			
+- 执行流程  
+
+	- a:执行初始化语句 
+	- b:执行判断条件语句,看其返回值是 true 还是 false
+		
+		- 如果是 true，就继续执行
+		- 如果是 false，就结束循环 
+	
+	- c:执行循环体语句
+	- d:执行控制条件语句 
+	- e:回到 b 继续  
+
+- 举个栗子  
+
+		//需求：100以内6的倍数有多少个
+        int x = 1;
+        int count = 0;
+
+        while (x < 101){
+            if (x%6==0){
+                count++;
+            }
+        x++;
+        }
+        System.out.println("count="+count);  
+        
+**do...while 循环格式**  
+
+- 格式  
+
+	- 完整格式: 
+	
+			初始化语句;
+			do {
+			       循环体语句;
+			       控制条件语句;                
+			   } while(判断条件语句);  
+			   
+- 执行流程  
+
+	- a:执行初始化语句
+	- b:执行循环体语句;
+	- c:执行控制条件语句 
+	- d:执行判断条件语句,看其返回值是 true 还是 false，如果是 true，就继续执行 如果是 false，就结束循环
+	- e:回到 b 继续
+
+- 举个栗子  
+
+		//打印1-7
+		int x = 1;
+		do {
+		        System.out.println("x="+x);
+		        x++;
+		}while (x < 8);  
+		
+**循环结构三种循环语句的区别**  
+
+三种循环语句其实都可以完成一样的功能，也就是说可以等价转换，但还是有小区别的:
+
+- do...while 循环至少会执行一次循环体
+- for 循环和 while 循环只有在条件成立的时候才会去执行循环体  
+
+**写程序优先考虑 for 循环，再考虑 while 循环，最后考虑 do...while 循环. 如下代码是死循环:**  
+
+	while(true){}
+	for(;;){}  
+	
+**for 循环和 while 循环的区别**:  
+
+- 使用区别:
+
+	控制条件语句所控制的那个变量，在 for 循环结束后，就不能再被访问到了，而 while 循环结束还可以继续使用，如果你想继续使用，就用 while，否则推荐使用 for.原因是 for 循环结束，该变量就从内存中消失，能够提高内存的使用效率  
+	
+- 场景区别:
+
+	- for 循环适合针对一个范围判断进行操作  
+	- while 循环适合判断次数不明确操作  
+
+**循环嵌套**  
+
+	public class ForForDemo {
+	   	public static void main(String[] args) {
+	    //大圈套小圈思想
+	        for (int x = 0; x < 3; x++) {
+	            for (int y = 2; y < 5; y++) {
+	                System.out.println("x=" + x + ",y=" + y);
+	            }
+	        }
+	       /*
+	       输出：
+	       *****
+	       *****
+	       *****
+	       *****
+	        */
+	
+	        for (int x = 0; x < 4; x++) {//外循环控制的是行数
+	            //System.out.println("*****");
+	            for (int n = 0; n < 5; n++) {//内循环控制的是每一行的个数
+	                System.out.print("*");
+	            }
+	            System.out.println();//为了换行操作
+	        }
+	
+	        /*
+	
+	        输出：
+	        *****
+	        ****
+	        ***
+	        **
+	        *
+	
+	         */
+	
+	        int z=5;
+	        for (int x= 0; x< 5;x++){   //1-5  1-4  1-3
+	            for (int y= 0 ;y<z;y++){
+	                System.out.print("*");
+	            }
+	            System.out.println();
+	            z--;
+	        }
+	
+	
+	        int z1 = 1;
+	        for (int x = 1; x < 5; x++) {//1-5  2-5 3-5
+	            for (int y = z1; y < 5; y++) {
+	                System.out.print("*");
+	            }
+	            System.out.println();
+	            z1++;
+	        }
+	
+	      /*
+	      输出：
+	      *
+	      **
+	      ***
+	      ****
+	      *****
+	
+	      */
+	        int n = 1;
+	        for (int x = 1; x <= 5; x++) {//1-1  1-2  1-3
+	            for (int y = 1; y <= n; y++) {
+	                System.out.print("*");
+	            }
+	            System.out.println();
+	            n++;
+	        }
+	        int m = 5;
+	        for (int x = 1; x <= 5; x++) {//5-5  4-5  3-5
+	            for (int y = m; y <= 5; y++) {
+	                System.out.print("*");
+	            }
+	            System.out.println();
+	            m--;
+	        }
+	
+	      /*
+	      输出：
+	
+	      54321
+	      5432
+	      543
+	      54
+	      5
+	
+	       */
+	        int l = 1;
+	        for (int x = 1; x <= 5; x++) {
+	            for (int y = 5; y >= l; y--){
+	                System.out.print(y);
+	        }
+	        System.out.println();
+	        l++;
+	    }
+	
+	    /*
+	    输出：
+	
+	    1
+	    12
+	    123
+	    1234
+	    12345
+	     */
+	    int o =1;
+	    for (int x =1;x<=5;x++){
+	        for (int y =1;y<=o;y++){
+	            System.out.print(y);
+	        }
+	        System.out.println();
+	        o++;
+	    }
+	    /*
+	    输出：
+	
+	    1
+	    22
+	    333
+	    4444
+	    55555
+	
+	     */
+	    for (int x= 1;x<=5;x++){
+	        for (int y =1;y<=x;y++){
+	            System.out.print(x);
+	        }
+	        System.out.println();
+	    }
+	
+	    /*
+	    输出九九乘法表：
+	    1*1=1
+	    1*2=2 2*2=4
+	    1*3=3 2*3=6 3*3=9
+	     */
+	
+	    for (int x=1;x<=9;x++){
+	        for (int y =1;y<=x;y++){
+	            int b = y * x;
+	            System.out.print(y+"*"+x+"="+b+"\t");
+	        }
+	        System.out.println();
+	
+	    }
+	    /*
+	
+	           \t ：制表符
+	           \n : 回车
+	           \b : 退格
+	           \r : 按下回车键
+	
+	           windows中回车符有两个字符组成\n\r
+	           linux中回车符为\n
+	     */
+	
+	    /*
+	    输出：
+	
+	     * * * * *
+	      * * * *
+	       * * *
+	        * *
+	         *
+	     */
+	    int a= 5;
+	    for (int x=1;x<=5;x++){
+	        for (int s=1;s<x;s++){
+	            System.out.print(" ");
+	        }
+	
+	        for (int y=1;y<=a;y++){
+	            System.out.print("* ");
+	        }
+	        System.out.println();
+	        a--;
+	    }
+	    }
+	
+		}  
+		
+
+那如果我们想在某个循环到某一步的时候就结束该怎么办呢?Java 就提供了 `break`，`continue` 和 `return` 来实现循环语句的跳转和中断  
+
+- break  
+
+	使用场景:只能在 switch 和循环中，既可以跳出单层循环又可以跳出多层循环
+
+- continue
+
+	使用场景:只能在循环中，只能退出本次循环
+
+- return
+
+	使用场景:return 关键字不是为了跳转出循环体，更常用的功能是结束一个方法，也就是退出一个方法.跳转到上层调用的方法  
+	
+**方法概述和格式说明**  
+
+`使用方法的好处:提高代码的复用性`
+`什么是方法?:完成特定功能的代码块`  
+
+- 格式  
+
+		修饰符 返回值类型 方法名(参数类型 参数名1,参数类型 参数名2...) 
+		{ 
+			方法体语句;
+			return 返回值; 
+		}   
+		
+- 格式说明  	- 修饰符:public protected private static 
+	- 返回值类型:就是功能结果的数据类型
+	- 方法名:符合命名规则即可,方便我们的调用
+	- 参数:
+	  
+		- 实际参数:就是实际参与运算的  
+		- 形式参数:就是方法定义上的，用于接收实际参数的 
+	
+	- 参数类型:就是参数的数据类型
+	- 参数名:就是变量名
+	- 方法体语句:就是完成功能的代码
+	- return:结束方法的    
+	- 返回值:就是功能的结果，由 return 带给调用者  
+
+**写方法之前我们明确返回值类型和参数列表**
+
+- 方法的注意事项  
+
+	- a:方法不调用不执行
+	- b:方法与方法是平级关系，不能嵌套定义  
+	- c:方法定义的时候参数之间用逗号隔开  
+	- d:方法调用的时候不用在传递数据类型  
+	- e:如果方法有明确的返回值，一定要有 return 带回一个值   
+
+- 方法重载概述和基本使用  
+
+**方法重载概述:在同一个类中，方法名相同，参数列表不同.与返回值类型无关**
+  
+  - 参数列表不同:
+
+	 - A:参数个数不同
+	 - B:参数类型不同 
+	 - C:参数的顺序不同(算重载,但是在开发中不用) 
+
+- 案例:
+
+	    //两个整数的和
+	    public static int add(int a ,int b)
+	    {
+	        int sum = a + b;
+	        return sum;
+	    }
+	
+	    //两个小数的和
+	    public static double add(double a ,double b)
+	    {
+	        double sum = a + b;
+	        return sum;
+	    }
+
+ 
+
