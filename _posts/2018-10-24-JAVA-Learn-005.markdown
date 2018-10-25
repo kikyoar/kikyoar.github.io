@@ -452,9 +452,9 @@ tags:
 - System.out.println(arr.length);//打印二维数组的长度，其实就是一维数组的个数
 - System.out.println(arr[1].length);//打印二维数组中角标为1的一位数组的个数
 
-		/**
-		 *  二维数组的遍历
-		 */
+
+**二维数组的遍历**
+
 		public class Array2Demo {
 		    public static void main(String[] args){
 		        //定义一个二维数组
@@ -480,6 +480,7 @@ tags:
 		        }
 		    }
 		}
+
 
 
 - 注意事项  
