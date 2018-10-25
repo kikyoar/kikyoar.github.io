@@ -445,21 +445,19 @@ tags:
 
 **二维数组概述和格式的讲解**
 
+- int[][] arr=new int[3][2];//3代表二维数组的长度，2代表一维数组的长度  
+- System.out.println(arr);//直接打印二维数组  
+- System.out.println(arr[0]);//打印二维数组中额角标为0的一维数组
+- System.out.println(arr[0][0]);//打印二维数组中角标为0的一维数组中的角标为0的元素
+- System.out.println(arr.length);//打印二维数组的长度，其实就是一维数组的个数
+- System.out.println(arr[1].length);//打印二维数组中角标为1的一位数组的个数
 
-	public class Array2Demo1 {
-	    public static void main(String[] args) {
+        public class Array2Demo1 {
+	     	public static void main(String[] args) {
 	
 	        //[I@511d50c0    @左边是实体的类，@右边是实体的哈希值
 	        //创建一个二维数组，该数组中有3个一维数组，一维数组中包含2个元素
-	        /*
-	        int[][] arr=new int[3][2];//3代表二维数组的长度，2代表一维数组的长度
-	        System.out.println(arr);//直接打印二维数组
-	        System.out.println(arr[0]);//打印二维数组中额角标为0的一维数组
-	        System.out.println(arr[0][0]);//打印二维数组中角标为0的一维数组中的角标为0的元素
-	
-	        System.out.println(arr.length);//打印二维数组的长度，其实就是一维数组的个数
-	        System.out.println(arr[1].length);//打印二维数组中角标为1的一位数组的个数
-	        */
+
 	        int arr_demo [][]={{1,2,3},{4,5,6},{7,8,9}};
 	        Arr2(arr_demo);
 
@@ -481,9 +479,8 @@ tags:
 	
 	        }
 	        System.out.println("}");
-	    }
-
-	}	
+	      }
+	    }	
 
 
 - 注意事项  
