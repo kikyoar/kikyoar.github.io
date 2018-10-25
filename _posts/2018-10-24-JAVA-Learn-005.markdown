@@ -452,35 +452,35 @@ tags:
 - System.out.println(arr.length);//打印二维数组的长度，其实就是一维数组的个数
 - System.out.println(arr[1].length);//打印二维数组中角标为1的一位数组的个数
 
-        public class Array2Demo1 {
-	     	public static void main(String[] args) {
+	        public class Array2Demo1 {
+		     	public static void main(String[] args) {
+		
+		        //[I@511d50c0    @左边是实体的类，@右边是实体的哈希值
+		        //创建一个二维数组，该数组中有3个一维数组，一维数组中包含2个元素
 	
-	        //[I@511d50c0    @左边是实体的类，@右边是实体的哈希值
-	        //创建一个二维数组，该数组中有3个一维数组，一维数组中包含2个元素
-
-	        int arr_demo [][]={{1,2,3},{4,5,6},{7,8,9}};
-	        Arr2(arr_demo);
-
-	    }
-	  
+		           int arr_demo [][] = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+		           Arr2(arr_demo);
 	
-	    //输出二维数组
-	    public static void  Arr2(int[][] arr)
-	    {
-	        System.out.println("{");
-	        for (int x = 0;x < arr.length;x++)
-	        {
-	            System.out.print("\t{");
-	           for (int j =0;j<arr[x].length;j++)
-	           {
-	               System.out.print(arr[x][j]+",");
-	           }
-	           System.out.println("}");
-	
-	        }
-	        System.out.println("}");
-	      }
-	    }	
+		    	}
+		  
+		
+		    //输出二维数组
+		    public static void  Arr2(int[][] arr)
+		    {
+		        System.out.println("{");
+		        for (int x = 0;x < arr.length;x++)
+		        {
+		            System.out.print("\t{");
+		           for (int j =0;j<arr[x].length;j++)
+		           {
+		               System.out.print(arr[x][j]+",");
+		           }
+		           System.out.println("}");
+		
+		        }
+		        System.out.println("}");
+		      }
+		    }	
 
 
 - 注意事项  
