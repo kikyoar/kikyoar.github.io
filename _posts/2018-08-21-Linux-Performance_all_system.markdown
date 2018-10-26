@@ -17,7 +17,7 @@ tags:
 	
 该命令可以大致的看出计算机的整体负载情况，load average后的数字分别表示计算机在1min、5min、15min内的平均负载  
 
-**dmesg | tail**  
+**dmesg \| tail**  
 
 	$ dmesg | tail
 	[1880957.563150] perl invoked oom-killer: gfp_mask=0x280da, order=0, oom_score_adj=0
@@ -157,7 +157,7 @@ Linux中会用free内存作为cache，若应用程序需要分配内存，系统
 
 sar是System Activity Reporter的缩写，系统活动状态报告  
 
--n { keyword [,…] | ALL }，用于报告网络统计数据。keyword可以是以下的一个或者多个： DEV, EDEV, NFS, NFSD, SOCK, IP, EIP, ICMP, EICMP, TCP, ETCP, UDP, SOCK6, IP6, EIP6, ICMP6, EICMP6 和UDP6   
+-n { keyword [,…] \| ALL }，用于报告网络统计数据。keyword可以是以下的一个或者多个： DEV, EDEV, NFS, NFSD, SOCK, IP, EIP, ICMP, EICMP, TCP, ETCP, UDP, SOCK6, IP6, EIP6, ICMP6, EICMP6 和UDP6   
 
 -n DEV 1, 每秒统计一次网络的使用情况    
 -n EDEV 1，每秒统计一次错误的网络信息  
