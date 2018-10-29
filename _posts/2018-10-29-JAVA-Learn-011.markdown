@@ -1,0 +1,413 @@
+---
+layout:     post
+title:      "JAVA语法笔记---第十一章"
+subtitle:   "JAVA语法备查"
+date:       2018-10-29
+author:     "kikyoar"
+header-img: "img/post-bg-Java-version.jpg"
+tags:
+    - Java
+--- 
+
+## 第十一章  
+
+**异常**  
+
+- 概述：异常就是 Java 程序在运行过程中出现的错误  
+- 异常的分类：Java 中运行时发生的除了异常 Exception 还有错误 Error  
+
+	- 异常(Exception):通常发生可以有针对性的处理方式的  
+	- 错误(Error):通常发生后不会有针对性的处理方式.Error 的发生往往都是系统级别的问题，都是 jvm 所在系统发生的并反馈给 jvm 的  
+
+**异常的继承体系**  
+
+![Keyword010.jpg](http://kikyoar.com/img/Keyword010.jpg)  
+
+**JVM 默认处理异常的方式**  
+main 函数收到这个问题时,有两种处理方式:  
+
+- 自己将该问题处理,然后继续运行
+- 自己没有针对的处理方式,只有交给调用 main 的 jvm 来处理，`jvm 有一个默认的异常处理机制,就将该异常进行处理.并将该异常的名称,异常的信息.异常出现的位置打印在了控制台上,同时将程序停止运行`  
+
+以前正常流程代码和问题处理代码相结合  
+现在将正常流程代码和问题处理代码相分离，提高阅读性  
+其实异常就是java通过面向对象的思想将问题封装成了对象,用异常类进行描述  
+不同的问题用不同的类进行具体的描述.比如指标越界，空指针等等，问题很多，意味着描述的类也很多，将其共性进行向上抽取，形成`了异常体系`  
+
+最终问题（不正常情况）就分成了两大类：  
+**Throwable**：无论是ERROR，还是异常，问题，问题发生就应该抛出，让调用着知道并处理  
+**`该体系的特点就在于throwable及所有的子类都具有可抛性`**  
+         
+可抛性到底指的是什么呢，怎么体现可抛性呢？    
+**`throws`  `throw`，凡是可以被这两个关键字操作的类和对象都具有可抛性**
+
+- 一般不可以处理的 ERROR  
+
+	- 特点：是由JVM抛出的严重性问题，这种问题发生一般不针对性处理，修改程序
+
+- 可以处理的 Exception
+
+	- 特点：子类的后缀名都是用其父类名作为后缀，阅读性很强  
+
+
+对于角标是正数不存在，可以用角标越界来表示，对于负数为角标的情况，准备用负数角标异常来表示  
+但是负数角标异常在java中没有，则按照java异常的创建思想，面向对象，将负数角标自定义描述，并封装成对象，这种自定义的描述，称为`自定义异常`  
+**如果让一个类称为异常类，必须要继承异常体系，因为只有称为异常体系的子类才有资格具备可抛性才可以被两个关键字操作：`throws`  `throw`**  
+
+**异常的分类**：
+
+- 编译时被检测异常：只要是Exception和其子类都是，除了特殊子类RuntimeException体系，这种问题一旦出现，希望在编译时进行检测，让这种问题有对应的处理方式，这样的问题都可以针对性的处理
+- 编译时不检测异常（运行时异常）：就是Exception中的RuntimeException和其子类，这种问题的发生，无法让功能继续，运算无法进行，更多是因为调用的原因导致的或者引发了内部状态的改变导致的，这种问题一般不处理，直接编译通过，在运行时，让调用者调用时的程序强制停止，让调用者对代码进行修正  
+
+**所以自定义异常时，要么定义`Exception`，要么定义`RuntimeException`**  
+
+	class NoAgeException extends RuntimeException {
+	   
+		//为什么要定义构造函数，因为看到 Java 中的异常描述类中有提供对问题对象的初始化方法
+		NoAgeException()
+		{
+		super(); 
+		}
+		NoAgeException(String message)
+		{
+	  	super(message);// 如果自定义异常需要异常信息，可以通过调用父类的带有字符串参数的构造函数即可
+		} 
+	}
+
+**Throwable 的几个常见方法**：  
+
+- getMessage():获取异常信息，返回字符串
+- toString():获取异常类名和异常信息，返回字符串
+- printStackTrace():获取异常类名和异常信息，以及异常出现在程序中的位置.返回值 void
+
+**throw和throws的区别**：
+
+- throws:
+
+	- 用在方法声明后面，跟的是异常类名 
+	- 可以跟多个异常类名，用逗号隔开 
+	- 表示抛出异常，由该方法的调用者来处理
+
+- throw: 
+
+	- 用在方法体内，跟的是异常对象名 
+	- 只能抛出一个异常对象名
+	- 表示抛出异常，由方法体内的语句处理      
+
+**举个小栗子**:
+
+
+	class FuShuIndexException extends Exception
+	{
+	    FuShuIndexException()
+	    {
+	        super();
+	        System.out.println("不能用负数啊！");
+	    }
+	    FuShuIndexException(String message)
+	    {
+	        super(message);
+	    }
+	
+	
+	}
+	
+	public class ExceptionDemo3 {
+	    public static void main(String[] args) throws FuShuIndexException{
+	
+	        int[] arr = new int[5];
+	        method(arr,-1);
+	
+	    }
+	
+	    public static void method(int[] arr,int index) throws FuShuIndexException
+	    {
+	
+	        if (index < 0)
+	        {
+	            //throw new FuShuIndexException();
+	            throw new FuShuIndexException("不能用负数！");
+	
+	        }
+	        System.out.println(arr[index]);
+	    }
+	}  
+	
+**运行结果**:   
+
+	Exception in thread "main" day11.FuShuIndexException: 不能用负数！
+		at day11.ExceptionDemo3.method(ExceptionDemo3.java:68)
+		at day11.ExceptionDemo3.main(ExceptionDemo3.java:58)  
+		
+
+**异常处理的捕捉形式**：  
+
+这是可以对异常进行针对性处理的方式,具体格式是：
+
+    try
+    {   //需要被检测异常的代码
+    }
+    catch (异常类 变量)//该变量用于接收发生的异常对象
+    {   //处理异常的代码
+    }
+    finally
+    {   //一定会被执行的代码
+    }
+
+**异常处理的原则**：
+
+- 函数内容如果抛出需要检测的异常，那么函数上必须声明，否则必须在函数内用try...catch捕捉，否则编译失败  
+- 如果调用到了声明异常的函数，要么用try...catch，要么用throws，否则编译失败
+- 什么时候catch，什么时候throws呢？
+   - 功能可以解决，用catch
+   - 解决不了，用throws告诉调用者，由调用者解决
+- 一个功能如果抛出了多个异常，那么调用时，必须由多个catch进行针对性的处理，内部有几个需要检测的异常，就抛出几个，就catch几个  
+
+**举个小栗子**:
+
+	class FushuIndex1Expection extends Exception
+	{
+	    FushuIndex1Expection()
+	    {
+	        System.out.println("不能为负数啊！");
+	    }
+	    FushuIndex1Expection(String message)
+	    {
+	        super(message);
+	    }
+	}
+	public class ExceptionDemo4 {
+	    public static void main(String[] args){
+	        int[] arr = new int[3];
+	        try {
+	            System.out.println(method(null, -1));
+	        }
+	        catch (NullPointerException a)
+	        {
+	            System.out.println("String:"+a.toString());
+	            a.printStackTrace();
+	        }
+	        catch (FushuIndex1Expection a)
+	        {
+	            System.out.println("message:"+a.getMessage());
+	            System.out.println("string:"+a.toString());
+	            a.printStackTrace();//JVM默认的异常处理机制就是调用异常对象的这个方法
+	            System.out.println("哼");
+	        }
+	        catch (Exception a)//多catch父类的catch放在最下面
+	        {
+	
+	        }
+	
+	    }
+	    public static int method(int[] arr,int index) throws FushuIndex1Expection
+	    {
+	        if (arr == null)
+	        {
+	            throw new NullPointerException();
+	        }
+	        if (index < 0)
+	        {
+	            throw new FushuIndex1Expection("角标现在是负的了");
+	        }
+	        return arr[index];
+	    }
+	}  
+
+**运行结果**:
+	
+	String:java.lang.NullPointerException
+	java.lang.NullPointerException
+		at day11.ExceptionDemo4.method(ExceptionDemo4.java:76)
+		at day11.ExceptionDemo4.main(ExceptionDemo4.java:52  
+		
+**finally 的特点**：**`被 finally 控制的语句体一定会执行`**
+
+- 特殊情况:在执行到 finally 之前 jvm 退出了(比如 System.exit(0)) 
+
+**finally 的作用**：`用于释放资源`，在 IO 流操作和数据库操作中会见到
+
+**try catch finally 组合特点**：
+
+    1、try catch finally
+    2、try catch（多个）当没有必要资源释放时，可以不用定义finally
+    3、try finally 异常无法catch处理，但是资源需要关闭
+
+    void show() throws Exception
+    {
+        try
+        {
+            //开启资源
+            throw new Exception
+        }
+        finally
+        {
+            //关闭资源
+        }  
+        
+**举个小栗子**:        
+
+	class Demo {
+	    public int show(int index)
+	    {
+	        if (index < 0)
+	        {
+	            throw new ArrayIndexOutOfBoundsException("越界拉");
+	        }
+	        int[] arr = new int[3];
+	        return arr[index];
+	    }
+	}
+	
+	
+	public class ExceptionDemo5 {
+	    public static void main(String[] args) {
+	
+	
+	        Demo d =new Demo();
+	
+	        try {
+	            int num = d.show(-1);
+	            System.out.println(num);
+	        }
+	        catch (ArrayIndexOutOfBoundsException e)
+	        {
+	            System.out.println("String:"+e.toString());
+	            //return;
+	            //System.exit(0);//退出JVM
+	        }
+	        finally //通常用于关闭（释放）资源
+	        {
+	            System.out.println("Finally");
+	        }
+	        System.out.println("Over");
+	
+	    }
+	}
+
+**运行结果**:
+
+	String:java.lang.ArrayIndexOutOfBoundsException: 越界拉
+	Finally
+	Over  
+	
+	
+
+**异常的注意事项**：  
+
+- 子类在覆盖父类方法时，父类的方法如果抛出了异常，那么子类的方法只能抛出父类的异常或者该异常的子类
+- 如果父类抛出多个异常，那么子类只能抛出父类异常的子集，简单说：**子类覆盖父类只能抛出父类的异常或者子类，或者子集**
+
+**如果父类的方法没有抛出异常，那么子类覆盖时绝对不能抛，就只能try**  
+
+
+	class LanPingExpection extends Exception
+	{
+	    LanPingExpection(String msg)
+	    {
+	        super(msg);
+	    }
+	}
+	
+	class MaoYanExpection extends Exception
+	{
+	    MaoYanExpection(String msg)
+	    {
+	        super(msg);
+	    }
+	}
+	class NoPlanException extends Exception
+	{
+	    NoPlanException(String msg)
+	    {
+	        super(msg);
+	    }
+	}
+	
+	class Computer
+	{
+	    private int state = 2;
+	    public void run() throws LanPingExpection,MaoYanExpection
+	    {
+	        if (state == 1)
+	        {
+	            throw new LanPingExpection("电脑蓝屏了！");
+	        }
+	        if (state == 2)
+	        {
+	            throw new MaoYanExpection("电脑冒烟了！");
+	        }
+	        System.out.println("电脑运行");
+	    }
+	    public void reset()
+	    {
+	        state = 0;
+	        System.out.println("电脑重启了");
+	    }
+	}
+	
+	class Teacher
+	{
+	    private String name;
+	    private Computer comp;
+	    Teacher (String name)
+	    {
+	        this.name = name;
+	        comp = new Computer();
+	    }
+	    public void prelect() throws NoPlanException
+	    {
+	        try {
+	            comp.run();
+	            System.out.println(name+"讲课");
+	
+	        }
+	        catch (LanPingExpection e)
+	        {
+	            System.out.println(e.toString());
+	            comp.reset();
+	            prelect();
+	        }
+	        catch (MaoYanExpection e)
+	        {
+	            System.out.println(e.toString());
+	            test();
+	            throw new NoPlanException(e.getMessage()+"课时进度无法完成，公司处理！");
+	        }
+	
+	    }
+	    public void test()
+	    {
+	        System.out.println("大家练习！");
+	    }
+	}
+	
+	public class ExceptionTest {
+	    public static void main(String[] args) {
+	        Teacher t = new Teacher("zhang");
+	
+	        try {
+	            t.prelect();
+	        }
+	        catch (NoPlanException e)
+	        {
+	            System.out.println(e.toString()+".........");
+	            System.out.println("换人");
+	        }
+	
+	    }  
+	    
+	    
+**运行结果**:  
+
+	day11.MaoYanExpection: 电脑冒烟了！
+	大家练习！
+	day11.NoPlanException: 电脑冒烟了！课时进度无法完成，公司处理！.........
+	换人  
+	
+**final,finally 和 finalize 的区别**:  
+
+- final 是最终的意思.它可以用于修饰类，成员变量，成员方法.它修饰的类不能被继承，它修饰的变量时常量，它修饰的方法不能被重写
+- finally:是异常处理里面的关键字.它其中的代码永远被执行.特殊情况:在执行 它之前 jvm 退出.`System.exit(0);`
+- finalize:是 Object 类中的一个方法.它是于垃圾回收器调用的方式  
+.
