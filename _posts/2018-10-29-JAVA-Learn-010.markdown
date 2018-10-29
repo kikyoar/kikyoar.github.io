@@ -1,0 +1,395 @@
+---
+layout:     post
+title:      "JAVA语法笔记---第十章"
+subtitle:   "JAVA语法备查"
+date:       2018-10-29
+author:     "kikyoar"
+header-img: "img/post-bg-Java-version.jpg"
+tags:
+    - Java
+--- 
+
+## 第十章  
+
+**面向对象之 package 关键字**  
+
+- 包的作用:  
+
+	- 将字节码(.class)进行分类存放 
+	- 包其实就是文件夹  
+
+- 创建包的原则:  
+
+	- 按功能分 
+	- 按模块来分   
+
+	**例子**:
+	  
+		  学生:增加，删除，修改，查询
+		  老师:增加，删除，修改，查询
+	    
+	    按功能分:  com.heima.add
+	              com.heima.delete
+	              com.heima.uodate
+	              com.heima.find 
+	    
+	    按模块分:  com.heima.teacher 
+	              com.heima.student  
+	 
+- 定义包的注意事项:  
+
+	- package 语句必须是程序的第一条可执行代码
+	- package 在一个 java 文件中只能有一个
+	- 如果没有 package，默认表示无包名  
+
+- 带包的类编译和运行:  
+
+	- javac 编译带上-d 即可 如:javac -d . HelloWord.java 
+	- 通过 java 命令执行 如:java 包名.HelloWord 
+
+- 如何引入包:
+
+	- import com.heima.add  
+
+- 四种修饰符:
+
+	![Keyword009.jpg](http://kikyoar.com/img/Keyword009.jpg)  
+	
+	- 修饰符  
+		- 权限修饰符:private，default，public，protected 
+		- 状态修饰符:static，final
+		- 抽象修饰符:abstract  
+	
+	- 类 
+		- 权限修饰符:默认修饰符，public 
+		- 状态修饰符:final 
+		- 抽象修饰符:abstract  
+
+	- 成员变量 
+	
+		- 权限修饰符:private(常用)，默认，protected，public 
+		- 状态修饰符:static，final  
+
+	- 构造方法 
+	
+		- 权限修饰符:private，默认，protected，public(常用)  
+
+	- 成员方法
+
+		- 权限修饰符:private，默认的，protected，public(常用) 
+		- 状态修饰符:static，final
+		- 抽象修饰符:abstract  
+
+	- 除此以外的组合规则  
+
+	- 成员变量:public static final 
+	- 成员方法:
+		- public static
+		- public final 
+		- public abstract  
+
+**内部类**  
+
+- 概述:内部类是指在一个外部类的内部再定义一个类  
+- 内部类访问特点:
+
+	- 内部类可以直接访问外部类的成员，包括私有 
+	- 外部类要访问内部类的成员，必须创建对象 
+	- 外部类名.内部类名 对象名 = 外部类对象.内部类对象;  
+
+**举个小栗子**:  
+
+	class Outer
+	{
+	    private static int num =3;
+	    static class Inner//内部类
+	    {
+	        void show()
+	        {
+	
+	            System.out.println("内部类"+num);
+	        }
+	        static void function()
+	        {
+	            System.out.println("内部静态类"+num);//如果内部类中定义了静态成员，该内部类也必须是静态的
+	        }
+	    }
+	    public void method()
+	    {
+	        Inner a = new Inner();
+	        a.show();
+	    }
+	}
+	
+	public class InnerclassDemo {
+	    public static void main(String[] args) {
+	
+	        Outer m1 = new Outer();
+	        m1.method();
+	
+	        //直接访问外部类中的内部类中的成员,内部类非静态
+	        //Outer.Inner m2= new Outer().new Inner();
+	        //m2.show();
+	
+	        //如果内部类是静态的，相当于一个外部类
+	          Outer.Inner m3=new Outer.Inner();
+	          m3.show();
+	        //如果内部类是静态的，成员是静态的
+	        Outer.Inner.function();
+	
+	    }  
+	    
+**运行结果**:  
+
+	内部类3
+	内部类3
+	内部静态类3  
+	
+
+**为什么内部类能直接访问外部类中的成员呢？**  
+**那是因为内部类持有了外部类的引用。      外部类名.this**  
+
+**举个小栗子**:  
+
+	class Outer1
+	{
+	    int num = 3;
+	    class Inner1
+	    {
+	        int num = 4;
+	        void show()
+	        {
+	            int num = 5;
+	            System.out.println("num:"+Inner1.this.num);
+	        }
+	    }
+	    void method()
+	    {
+	        new Inner1().show();
+	    }
+	}
+	
+	
+	public class InnerclassDemo2 {
+	    public static void main(String[] args) {
+	
+	        Outer1 n = new Outer1();
+	        n.method();
+	    }
+	}  
+
+**运行结果**:	
+
+	num:4
+	
+- 静态成员内部类:修饰符 static  
+	- 成员内部类被静态修饰后的访问方式是:
+
+			外部类名.内部类名 对象名 = 外部类名.内部类对象;  
+			
+- 局部内部类  
+
+	- 局部内部类访问局部变量的问题:**`局部内部类访问局部变量必须用 final 修饰，jdk1.8取消`**   
+
+**举个小栗子**:  
+
+	class Outer2
+	{
+	    int num = 3;
+	    void method()
+	    {
+	        final int x = 5;
+	        class Inner2
+	        {
+	
+	            void show()
+	            {
+	                System.out.println("show......"+x);
+	            }
+	        }
+	
+	        Inner2 a = new Inner2();
+	        a.show();
+	    }
+	}
+	public class InnerclassDemo3 {
+	    public static void main(String[] args) {
+	
+	        new Outer2().method();
+	    }
+	}
+		
+**运行结果**:  
+
+	show......5	 
+		
+- 匿名内部类  
+
+	- 概述:就是内部类的简化写法
+	- 前提:**`内部类必须继承或者实现一个外部类或者接口`**  
+	- 格式:  
+	
+	        new 父类()
+	        {
+	            子类内容
+	        }; 
+			
+	- 本质:是一个继承了该类或者实现了该接口的子类匿名对象  
+
+**举个小栗子**:
+
+	abstract class Demo
+	{
+	    abstract void show();
+	}
+	
+	class Outer3
+	{
+	    int num = 4;
+	    /*
+	    class Inner3 extends Demo
+	    {
+	        void show()
+	        {
+	            System.out.println("show........."+num);
+	        }
+	    }
+	    */
+	    public void method()
+	    {
+	        //Inner3 a = new Inner3();
+	        //a.show();
+	        //new Inner3().show();
+	        new Demo()
+	        {
+	            void show()
+	            {
+	                System.out.println("show............"+num);
+	            }
+	        }.show();
+	    }
+	}
+	
+	
+	public class InnerDemo4  {
+	    public static void main(String[] args) {
+	
+	        Outer3 p = new Outer3();
+	        p.method();
+	    }  
+
+**运行结果**: 
+	    
+	show............4  
+	
+**当函数参数是接口类型，而且接口中的方法不超过三个时，可以用匿名内部类作为实际参数传递**
+
+**举个小栗子**:
+
+	interface Demo1
+	{
+	    abstract void show1();
+	    abstract void show2();
+	}
+	
+	class Outer4
+	{
+	    int x = 3;
+	    int y = 4;
+	
+	    void method() {
+	        Demo1 a = new Demo1() {
+	            public void show1() {
+	                System.out.println("x:" + x);
+	            }
+	
+	            public void show2() {
+	                System.out.println("y:" + y);
+	            }
+	        };
+	        a.show1();
+	        a.show2();
+	    }
+	
+	} 
+	
+	
+	public class InnerDemo5 {
+	    public static void main(String[] args) {
+		
+	        new Outer4().method();
+	    }
+	}  
+	  
+
+
+
+
+
+
+**Instanceof举例** 
+
+	abstract class SmallAnimal
+	{
+	    abstract void eat();
+	}
+	
+	class smalldog extends SmallAnimal
+	{
+	    void eat()
+	    {
+	        System.out.println("啃骨头");
+	    }
+	    void lookhome()
+	    {
+	        System.out.println("看家");
+	    }
+	}
+	
+	class smallcat extends SmallAnimal
+	{
+	    void eat()
+	    {
+	        System.out.println("吃鱼");
+	    }
+	    void catchmouse()
+	    {
+	        System.out.println("抓老鼠");
+	    }
+	}
+	
+	public class InstanceofDemo {
+	    public static void main(String[] args) {
+	        SmallAnimal a = new smalldog();
+	        Method(a);
+	
+	    }
+	public static void Method(SmallAnimal a)
+	    {
+	        a.eat();
+	        /*
+	        smallcat c = (smallcat)a;
+	        c.catchmouse();
+	        //((smallcat)a).catchmouse();
+	        */
+	        if (a instanceof smallcat)//instanceof 用于判断对象的具体类型，只能用于引用数据类型判断
+	                                  //通常在向下转型前用于健壮性的判断
+	        {
+	            smallcat c = (smallcat)a;
+	            c.catchmouse();
+	        }
+	        else
+	        {
+	            smalldog c =(smalldog)a;
+	            c.lookhome();
+	        }
+	
+	    }
+	
+	}
+
+**运行结果**:
+
+	啃骨头
+	看家
+		
