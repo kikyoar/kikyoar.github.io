@@ -6,7 +6,7 @@ date:       2018-05-20
 author:     "kikyoar"
 header-img: "img/post-bg-linux-version.jpg"
 tags:
-    - Shell
+    - Linux
 ---
 
 **有八种方法：**
