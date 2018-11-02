@@ -2,7 +2,7 @@
 layout:     post
 title:      "单例模式及getInstance()的用法"
 subtitle:   "使用getInstance()方法的原因及作用"
-date:       2018-10-29
+date:       2018-11-02
 
 author:     "kikyoar"
 header-img: "img/post-bg-Java-version.jpg"
