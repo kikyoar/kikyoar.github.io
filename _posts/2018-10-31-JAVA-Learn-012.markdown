@@ -52,7 +52,7 @@ tags:
 - 继承 Thread  
 
 	- 定义一个类继承Thread类
-	- 覆盖Thread类中的run方法
+	- `覆盖Thread类中的run方法`
 	- 直接创建Thread类的子类创建线程
 	- 调用start方法开启线程并调用线程的任务run方法执行  
 
@@ -148,6 +148,41 @@ tags:
 	* 好处是:即使自己定义的线程类有了父类也没关系,因为有了父类也可以实现接口,而且接口是可以多实现的
 	* 弊端是:不能直接使用Thread中的方法需要先获取到线程对象后,才能得到Thread的方法,代码复杂  
 
+**多线程(匿名内部类实现线程的两种方式)**  
+
+-  继承 Thread 类  
+
+		new Thread()
+		{
+			//1,new 类(){}继承这个类 
+			public void run()
+			{
+				//2.重写 run 方法
+				for(int i = 0; i < 3000; i++)
+				{
+				//3,将要执行的代码,写在 run 方法中
+				System.out.println("aa");
+				}
+				
+			}
+		}.start();  
+		
+- 实现 Runnable 接口  
+
+		new Thread(new Runnable(){
+			//1,new 接口(){}实现这个接口
+			public void run()
+				{ //2,重写 run 方法  
+					for(int i = 0; i < 3000; i++)
+					{
+					//3,将要执行的代码,写在 run 方法中
+						System.out.println("bb");
+					}
+				}
+		}).start();				
+
+ 
+
 **多线程(获取名字和设置名字)**  
 
 * 获取名字
@@ -155,6 +190,422 @@ tags:
 
 * 设置名字
 	* 通过构造函数可以传入 String 类型的名字
+
+			new Thread("xxx") {
+			  public void run() {
+			        for(int i = 0; i < 1000; i++)
+						{
+							System.out.println(this.getName() +"....aa");
+			          }
+					} 
+			}.start();
+			
+			new Thread("yyy") {
+				public void run() 
+					{
+			        for(int i = 0; i < 1000; i++) 
+			        	{
+			 				System.out.println(this.getName() + "....bb");
+			 			} 
+			 		}
+			}.start();  
+
+	* 通过 setName(String)方法可以设置线程对象的名字  
+
+			Thread t1 = new Thread() {
+				public void run() 
+				{
+			      for(int i = 0; i < 1000; i++) 
+			      {
+			          System.out.println(this.getName() +"....aa");
+					}
+				} 
+			};
+			
+			Thread t2 = new Thread() {
+				public void run() 
+				{
+			        for(int i = 0; i < 1000; i++) 
+			        {
+						System.out.println(this.getName() +"....bb");
+					  } 
+				}
+			}; 
+			t1.setName("芙蓉姐姐"); 
+			t2.setName("凤姐");
+			t1.start();
+			t2.start();
+
+* 多线程(获取当前线程的对象)  
+  使用`Thread.currentThread()`, 主线程也可以获取  
+  
+		new Thread(new Runnable() {
+		 	public void run() 
+		 	{
+		       for(int i = 0; i < 1000; i++) 
+		       {
+					System.out.println(Thread.currentThread().getName() + "...aa");
+		       }
+		
+		   }
+		}).start();
+		
+		
+		new Thread(new Runnable() {
+		     public void run() 
+		     {
+		        for(int i = 0; i < 1000; i++) 
+		        {
+		           System.out.println(Thread.currentThread().getName() + "...bb");
+				  } 
+			  }
+		}).start(); 
+		
+		Thread.currentThread().setName("我是主线程"); //获取主函数线程的引用,并获取名字
+		//获取主函数线程的引用,并改名字 System.out.println(Thread.currentThread().getName());  
+		
+* 多线程(休眠线程)  
+
+	Thread.sleep(毫秒,纳秒), 控制当前线程休眠若干毫秒   
+
+        new Thread() {
+            public void run() {
+                for(int i = 0; i < 10; i++)
+                {
+                    System.out.println(getName() +"...aa");
+                    try {
+                        Thread.sleep(10);
+                    }
+                    catch (InterruptedException e)
+                    {
+                    	//在命令行打印异常信息在程序中出错的位置及原因
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+
+        new Thread() {
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    System.out.println(getName() + "...bb");
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();  
+        
+* 多线程(守护线程)    
+	setDaemon(), 设置一个线程为守护线程, 该线程不会单独执行, 当其他非守护线程都执行结束后, 自动退出  
+	
+        Thread t1 = new Thread() {
+            public void run() {
+                for (int i = 0; i < 50; i++) {
+                    System.out.println(getName() + "...aa");
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread t2 = new Thread() {
+            public void run() {
+                for (int i = 0; i < 5; i++) {
+                    System.out.println(getName() + "...bb");
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        };
+
+        //将t1设置为守护线程
+        t1.setDaemon(true);
+        t1.start();
+        t2.start();    
+        
+* 多线程(加入线程)  
+
+	* join(), 当前线程暂停, 等待指定的线程执行结束后, 当前线程再继续
+	* join(int), 可以等待指定的毫秒之后继续  
+
+		        final Thread t1 = new Thread() {
+	            public void run() {
+	                for (int i = 0; i < 50; i++) {
+	                    System.out.println(getName() + "...aa");
+	                    try {
+	                        Thread.sleep(10);
+	                    } catch (InterruptedException e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }
+	
+	        };
+	        Thread t2 = new Thread() {
+	            public void run() {
+	                for (int i = 0; i < 50; i++) {
+	                    if (i == 2) {
+	                        try {
+	                            //t1.join();
+	                            //插队,加入
+	                            t1.join(30); //加入,有固定的时间,过了固定时间,继续交替执行
+	                            Thread.sleep(10);
+	                        } catch (InterruptedException e) {
+	                            e.printStackTrace();
+	                        }
+	                    }
+	                    System.out.println(getName() + "...bb");
+	                }
+	            }
+	        };
+	        t1.start();
+	        t2.start(); 
+
+* 多线程(礼让线程) 
+	* yield 让出 cpu
+
+* 多线程(设置线程的优先级) 
+	* setPriority()设置线程的优先级  
+
+	
+**多线程(同步代码块)** 
+
+创建线程的目的是为了开启一条执行路径，去运行指定的代码和其他代码实现同时运行,而运行的指定代码就是这个执行路径的任务
+
+JVM创建的主线程的任务都定义在主函数当中   
+而自定义的线程它的任务在哪儿呢？  
+Thread类用于描述线程，线程是需要任务的，所以Thread类也对任务的描述,这个任务就通过Thread类中的run方法来实现。也就是说，run方法就是封装自定义线程运行的函数  
+`run方法中定义的就是线程要运行的任务代码`
+
+**开启线程是为了运行指定代码，所以只有继承Thread类，并复写run方法，将运行的代码定义在run方法中即可** 
+
+线程安全问题产生的原因：
+    
+- 1、多个线程操作共享的数据
+- 2、操作共享数据的线程有多余  
+
+当一个线程在执行操作共享数据的多条代码过程中，其他线程参与了运算，就会导致线程安全问题的产生
+
+解决思路：
+    就是将多条操作共享数据的线程代码封装起来，当有线程在执行这些代码的时候，其他线程是不可以参与运算的，必须要当前线程把这些代码执行完毕后，其他线程才可以参与运算  
+    
+* 什么情况下需要同步
+	* 当多线程并发, 有多段代码同时执行时, 我们希望某一段代码执行的过程中 CPU 不要切换到其他线程工作. 这时就需要同步
+	* 如果两段代码是同步的, 那么同一时间只能执行一段, 在一段代码没执行结束之前, 不会执行另外一段代码  
+
+* 同步代码块  
+即有synchronized关键字修饰的语句块,被该关键字修饰的语句块会自动被加上内置锁，从而实现同步    
+同步是一种高开销的操作，因此应该尽量减少同步的内容,通常没有必要同步整个方法，使synchronized代码块同步关键代码即可
+
+	* 使用 synchronized 关键字加上一个锁对象来定义一段代码, 这就叫同步代码块   
+		格式  
+		
+		    synchronized(对象)
+		    {
+		        需要被同步的代码
+		    }
+    
+	* 多个同步代码块如果使用相同的锁对象, 那么他们就是同步的  
+
+			class Ticket1 implements Runnable
+			{
+			    private int num = 100;
+			    Object obj = new Object();
+			    public void run() {
+			
+			        while (true) {
+			
+			            synchronized (obj) {
+			                if (num > 0) {
+			                    try {
+			                        Thread.sleep(10);
+			
+			                    } catch (InterruptedException e) {
+			
+			                    }
+			
+			                    System.out.println(Thread.currentThread().getName() + "........sale........" + num--);
+			                }
+			            }
+			
+			        }
+			    }
+			}
+			
+			
+			public class ThreadDemo4 {
+			    public static void main(String[] args) {
+			
+			        Ticket1 d = new Ticket1();
+			        Thread d1 = new Thread(d);
+			        Thread d2 = new Thread(d);
+			        Thread d3 = new Thread(d);
+			        Thread d4 = new Thread(d);
+			        d1.start();
+			        d2.start();
+			        d3.start();
+			        d4.start();
+			    }
+			}  
+			
+* 同步方法  
+即有synchronized关键字修饰的方法,由于java的每个对象都有一个内置锁，当用此关键字修饰方法时,内置锁会保护整个方法。在调用该方法前，需要获得内置锁，否则就处于阻塞状态   
+
+
+	- 同步函数和同步代码块的区别：  
+
+    	- 同步函数的锁是固定的this  
+    	- 同步代码块的锁是任意的对象  
+
+	**`建议使用同步代码块`**
+
+	静态的同步函数使用的锁是该函数所属字节码文件对象，可以用getclass方法获取，也可以用当前类名.class来表示
+
+	**非静态同步函数的锁是:this**  
+	**静态的同步函数的锁是:字节码对象**
+
+	**举个栗子**
+
+	    /**
+	     * 线程同步的运用
+	     * 
+	     * @author XIEHEJUN
+	     * 
+	     */
+	    public class SynchronizedThread {
+	
+	        class Bank {
+	
+	            private int account = 100;
+	
+	            public int getAccount() {
+	                return account;
+	            }
+	
+	            /**
+	             * 用同步方法实现
+	             * 
+	             * @param money
+	             */
+	            public synchronized void save(int money) {
+	                account += money;
+	            }
+	
+	            /**
+	             * 用同步代码块实现
+	             * 
+	             * @param money
+	             */
+	            public void save1(int money) {
+	                synchronized (this) {
+	                    account += money;
+	                }
+	            }
+	        }
+	
+	        class NewThread implements Runnable {
+	            private Bank bank;
+	
+	            public NewThread(Bank bank) {
+	                this.bank = bank;
+	            }
+	
+	            @Override
+	            public void run() {
+	                for (int i = 0; i < 10; i++) {
+	                    // bank.save1(10);
+	                    bank.save(10);
+	                    System.out.println(i + "账户余额为：" + bank.getAccount());
+	                }
+	            }
+	
+	        }
+	
+	        /**
+	         * 建立线程，调用内部类
+	         */
+	        public void useThread() {
+	            Bank bank = new Bank();
+	            NewThread new_thread = new NewThread(bank);
+	            System.out.println("线程1");
+	            Thread thread1 = new Thread(new_thread);
+	            thread1.start();
+	            System.out.println("线程2");
+	            Thread thread2 = new Thread(new_thread);
+	            thread2.start();
+	        }
+	
+	        public static void main(String[] args) {
+	            SynchronizedThread st = new SynchronizedThread();
+	            st.useThread();
+	        }
+	
+	    }  
+	    
+
+- 多线程(死锁)  
+
+	**多线程同步的时候, 如果同步代码嵌套, 使用相同锁, 就有可能出现死锁**    
+	**尽量不要嵌套使用**   
+	
+		class Test implements Runnable {
+		    private boolean flag;
+		
+		    Test(boolean flag) {
+		        flag = this.flag;
+		    }
+		
+		    public void run() {
+		        if (flag) {
+		            synchronized (MyLock.locka) {
+		                System.out.println(Thread.currentThread().getName() + "if   locka........");
+		                synchronized (MyLock.lockb) {
+		                    System.out.println(Thread.currentThread().getName() + "if   lockb........");
+		                }
+		            }
+		        } else {
+		            synchronized (MyLock.lockb) {
+		                System.out.println(Thread.currentThread().getName() + "else   lockb........");
+		                synchronized (MyLock.locka) {
+		                    System.out.println(Thread.currentThread().getName() + "else   locka........");
+		                }
+		            }
+		        }
+		    }
+		}
+		
+		class MyLock {
+		    public static final Object locka = new Object();
+		    public static final Object lockb = new Object();
+		}
+		
+		public class DeadLockDemo {
+		    public static void main(String[] args) {
+		        Test a = new Test(true);
+		        Test b = new Test(false);
+		
+		        Thread t1 = new Thread(a);
+		        Thread t2 = new Thread(b);
+		
+		        t1.start();
+		        t2.start();
+		
+		    }
+		}  
+		
+
+
+  
+  
 
 
 
