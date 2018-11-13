@@ -1,0 +1,707 @@
+---
+layout:     post
+title:      "JAVA语法笔记---第十三章"
+subtitle:   "JAVA语法备查"
+date:       2018-11-13
+
+author:     "kikyoar"
+header-img: "img/post-bg-Java-version.jpg"
+tags:
+    - Java
+---   
+
+## 第十三章  
+
+**停止线程**：run方法结束
+
+**怎么控制线程的任务停止呢？**  
+任务中都会有循环结构，只要控制循环就可以结束任务,控制循环通常就用定义标记来完成  
+**但是如果线程处于冻结状态，则无法结束**  
+
+	class StopThread implements Runnable
+	{
+	    private boolean flag = true;
+	    public void run()
+	    {
+	        while (flag)
+	        {
+	            System.out.println(Thread.currentThread().getName()+"...............");
+	        }
+	    }
+	    public void setFlag()
+	    {
+	        flag = false;
+	    }
+	}
+	
+	
+	
+	public class StopThreadDemo {
+	    public static void main(String[] args) {
+	
+	        StopThread s = new StopThread();
+	        Thread t1 = new Thread(s);
+	        Thread t2 = new Thread(s);
+	        t1.start();
+	        t2.start();
+	        int num = 1;
+	        for (;;)
+	        {
+	            if (++num == 50)
+	            {
+	                s.setFlag();
+	                break;
+	            }
+	            System.out.println(Thread.currentThread().getName()+num);
+	        }
+	    }
+
+
+可以使用`interrupt方法`将线程从冻结状态强制恢复到运行状态中来，让线程具备CPU的运行资格
+但是强制动作会发生**InterruptedException**，记得要处理  
+
+	class StopThread1 implements Runnable
+	{
+	    private boolean flag = true;
+	    public void run()
+	    {
+	        while (flag)
+	        {
+	            try {
+	                wait();
+	            }
+	            catch (InterruptedException e)
+	            {
+	                System.out.println(Thread.currentThread().getName()+"......"+e);
+	                flag = false;
+	            }
+	            System.out.println(Thread.currentThread().getName()+"...............");
+	        }
+	    }
+	    public void setFlag()
+	    {
+	        flag = false;
+	    }
+	}
+	
+	
+	
+	public class StopThreadDemo1 {
+	    public static void main(String[] args) {
+	
+	        StopThread1 s = new StopThread1();
+	        Thread t1 = new Thread(s);
+	        Thread t2 = new Thread(s);
+	        t1.start();
+	        t2.setDaemon(true);//如果所有的前台线程都结束了，后台线程一定结束
+	        t2.start();
+	        int num = 1;
+	        for (;;)
+	        {
+	            if (++num == 50)
+	            {
+	                //s.setFlag();
+	                t1.interrupt();
+	                //t2.interrupt();
+	                break;
+	            }
+	            System.out.println(Thread.currentThread().getName()+num);
+	        }
+	        System.out.println("OVER");
+	    }
+
+
+
+**多线程(单例设计模式)**:  
+
+- 单例设计模式:保证类在内存中只有一个对象  
+- 如何保证类在内存中只有一个对象呢?  
+	
+	* 控制类的创建,不让其他类来创建本类的对象。private
+	* 在本类中定义一个本类的对象。Singleton s;
+	* 提供公共的访问方式。 
+	
+			public static Singleton getInstance(){return s}  
+			
+**单例写法两种**:  
+
+- 饿汉式 开发用这种方式  
+
+		//饿汉式
+		class Singleton { 
+			//1,私有构造函数
+			private Singleton(){}
+			//2,创建本类对象
+			private static Singleton s = new Singleton(); 
+			//3,对外提供公共的访问方法
+			public static Singleton getInstance() {
+			return s; }
+		    public static void print() {
+		           System.out.println("11111111111");
+			} 
+		}  
+		
+- (2)懒汉式 面试写这种方式。多线程的问题?  
+
+		//懒汉式,单例的延迟加载模式
+		class Singleton {
+			//1,私有构造函数
+			private Singleton(){} 
+			//2,声明一个本类的引用
+			private static Singleton s; 
+			//3,对外提供公共的访问方法
+			public static Singleton getInstance() {
+				if(s == null)
+				//线程 1,线程 2
+		       s = new Singleton();
+				return s;
+				}
+		    public static void print() {
+		       System.out.println("11111111111");
+				} 
+			}  
+			
+- (3)第三种格式 
+
+		class Singleton {
+		 	private Singleton() {}
+			public static final Singleton s = new Singleton();
+			//final 是最终的意思,被 final 修饰的变量不可以被更改  
+			}  
+			
+**多线程(Runtime 类)**:  
+
+* Runtime 类是一个单例类  
+
+		Runtime r = Runtime.getRuntime(); 
+		//r.exec("shutdown -s -t 300");  //300 秒后关机
+		r.exec("shutdown -a");//取消关机  
+		
+**多线程(两个线程间的通信)**:  
+
+* 什么时候需要通信
+
+	* 多个线程并发执行时, 在默认情况下 CPU 是随机切换线程的
+	* 如果我们希望他们有规律的执行, 就可以使用通信, 例如每个线程执行一次打印 
+
+* 2.怎么通信 
+	* 等待/唤醒机制：
+    	* wait();让线程处理冻结状态，被wait的线程会被存储到线程池中
+    	* notify();用于唤醒线程池中的一个线程（任意）
+    	* notifyAll();唤醒线程池中的所有线程
+
+	这些方法都必须定义在同步中，因为这些方法是用于操作线程状态的方法，必须要明确到底操作的是哪个锁上的线程
+
+**为什么操作线程的方法wait notify notifyAll定义在了Object类中**  
+因为这些方法是监视器的方法，监视器其实就是锁,锁是任意的方法，任意的对象调用的方法一定定义在Object类中
+
+	class Resource1
+	{
+	    String name;
+	    String sex;
+	    boolean flag;
+	}
+	
+	class Input1 implements Runnable
+	{
+	    Resource1 r1;
+	    Input1(Resource1 r1)
+	    {
+	        this.r1 =r1;
+	    }
+	    public void run()
+	    {
+	        int x = 0;
+	        while (true)
+	        {
+	            synchronized (r1) {
+	                if (r1.flag) {
+	                    try {
+	                        r1.wait();
+	                    } catch (InterruptedException e) {
+	                    }
+	
+	                    if (x == 0) {
+	                        r1.name = "李磊";
+	                        r1.sex = "男";
+	                    } else {
+	                        r1.name = "韩梅梅";
+	                        r1.sex = "女";
+	                    }
+	
+	                }
+	
+	                 r1.flag = true;
+	                 r1.notify();
+	            }
+	            x = (x+1) % 2;
+	        }
+	    }
+	}
+	
+	
+	class Output1 implements Runnable
+	{
+	    Resource1 r1;
+	    Output1(Resource1 r1)
+	    {
+	        this.r1 = r1;
+	    }
+	    public void run()
+	    {
+	        while (true)
+	        {
+	            synchronized (r1)
+	            {
+	                if (!r1.flag)
+	                {
+	                    try {
+	                        r1.wait();
+	                        }
+	                    catch (InterruptedException e)
+	                        {
+	                        }
+	                }
+	
+	                r1.flag = false;
+	                r1.notify();
+	                System.out.println(r1.name+"........."+r1.sex);
+	
+	
+	
+	            }
+	        }
+	
+	
+	    }
+	}
+	
+	
+	public class ThreadCommunicationDemo2 {
+	    public static void main(String[] args) {
+	
+	        //创建资源
+	        Resource1 r1 = new Resource1();
+	        //创建对象
+	        Input1 in = new Input1(r1);
+	        Output1 out = new Output1(r1);
+	        //创建线程,执行路径
+	        Thread t1 = new Thread(in);
+	        Thread t2 = new Thread(out);
+	
+	        t1.start();
+	        t2.start();
+	    }
+	}
+
+**多线程(三个或三个以上间的线程通信)**:
+
+* 多个线程通信的问题
+	* notify()方法是随机唤醒一个线程 
+	* notifyAll()方法是唤醒所有线程    
+
+**如果多个线程之间通信, 需要使用 notifyAll()通知所有线程, 用 while 来反复判断条件** 
+
+	class Resource2
+	{
+	    private String name;
+	    private String sex;
+	    boolean flag;
+	    public synchronized void set(String name,String sex)
+	    {
+	        if (flag)
+	        {
+	            try {
+	                this.wait();
+	            }
+	            catch (InterruptedException e)
+	            {
+	
+	            }
+	
+	        }
+	        this.name = name;
+	        this.sex = sex;
+	        flag = true;
+	        notify();
+	    }
+	    public synchronized void out()
+	    {
+	        if (!flag)
+	        {
+	            try {
+	                this.wait();
+	            }
+	            catch (InterruptedException e)
+	            {
+	
+	            }
+	        }
+	        System.out.println(name+"........."+sex);
+	        flag = false;
+	        this.notify();
+	
+	
+	    }
+	}
+	
+	class Input2 implements Runnable
+	{
+	    Resource2 r;
+	    Input2(Resource2 r)
+	    {
+	        this.r = r;
+	    }
+	    public void run()
+	    {
+	        int x = 0;
+	        while (true)
+	        {
+	            if (x == 0)
+	            {
+	                r.set("李磊", "男");
+	            }
+	            else
+	            {
+	                r.set("韩梅梅", "女");
+	            }
+	
+	            x = (x+1) % 2;
+	        }
+	
+	    }
+	}
+	
+	
+	class Output2 implements Runnable
+	{
+	    Resource2 r;
+	    Output2(Resource2 r)
+	    {
+	        this.r = r;
+	    }
+	    public void run()
+	    {
+	        while (true)
+	        {
+	            r.out();
+	
+	        }
+	    }
+	}
+	
+	
+	public class ThreadCommunicationDemo3{
+	    public static void main(String[] args) {
+	
+	        //创建资源
+	        Resource2 r = new Resource2();
+	        //创建对象
+	        Input2 in = new Input2(r);
+	        Output2 out = new Output2(r);
+	        //创建线程,执行路径
+	        Thread t1 = new Thread(in);
+	        Thread t2 = new Thread(out);
+	
+	        t1.start();
+	        t2.start();
+	    }
+	}
+**多线程(线程间的通信注意的问题)**:  
+
+* 1.在同步代码块中,用哪个对象锁,就用哪个对象调用 wait 方法 
+* 2.为什么 wait 方法和 notify 方法定义在 Object 这个类中?
+	* 锁对象可以是任意对象,那么任意对象对应的类都是 Object 类的子类,
+	* 也就是 Object 是所有的类的基类,所以将将方法定义在 Object 这个类中就会让任意对象对其调用所以 wait 方法和 notify 方法需要定义在 Object 这个类中
+* 3.sleep 方法和 wait 方法的区别?
+	* `sleep 在同步代码块或者同步函数中,不释放锁`
+	* `wait 在同步代码块或者同步函数中,释放锁`
+	* `sleep 方法必须传入参数,参数其实就是时间,时间到了自动醒来`
+	* `wait 方法可以传入参数,也可以不传入参数`
+	* `如果给 wait 方法传入时间参数,用法与 sleep 相似,时间到就停止等待(通常用的都是没有参数的 wait 方法) ` 
+
+**if判断标记：只有一次，会导致不该运行的线程运行了，出现数据错误的现象**  
+**notify：只能唤醒一个线程，如果本方唤醒了本方，没有意义，而且while判断标记+notify会导致死锁**  
+
+**while判断标记:解决了线程获得执行权后，是否要运行！**  
+**notifyAll解决了本方线程一定会唤醒对方线程的问题**   
+
+	class Resource5
+	{
+	    private String name;
+	    private int count = 1;
+	    private boolean flag = false;
+	    public synchronized void set (String name)
+	    {
+	        while (flag)
+	        {
+	            try {
+	                this.wait();
+	            }
+	            catch (InterruptedException e)
+	            {
+	
+	            }
+	        }
+	
+	        this.name = name + count;
+	        count++;
+	        System.out.println(Thread.currentThread().getName()+".......生产者......."+this.name);
+	        flag = true;
+	        notifyAll();
+	    }
+	    public synchronized void out()
+	    {
+	        while (!flag)
+	        {
+	            try {
+	                this.wait();
+	            }
+	            catch (InterruptedException e)
+	            {
+	
+	            }
+	        }
+	        System.out.println(Thread.currentThread().getName()+".......消费者......."+this.name);
+	        flag = false;
+	        notifyAll();
+	    }
+	}
+	
+	class Producer1 implements Runnable
+	{
+	    Resource5 r;
+	    Producer1(Resource5 r)
+	    {
+	        this.r = r;
+	    }
+	    public void run()
+	    {
+	        while (true)
+	        {
+	            r.set("烤鸭");
+	        }
+	
+	    }
+	
+	}
+	
+	class Consumer1 implements Runnable
+	{
+	    Resource5 r;
+	    Consumer1(Resource5 r)
+	    {
+	        this.r = r;
+	    }
+	    public void run()
+	    {
+	        while (true)
+	        {
+	            r.out();
+	        }
+	
+	    }
+	}
+	
+	
+	
+	
+	public class ThreadCommunicationDemo5 {
+	    public static void main(String[] args) {
+	
+	        Resource5 r = new Resource5();
+	        Producer1 p = new Producer1(r);
+	        Consumer1 c = new Consumer1(r);
+	        Thread t0 = new Thread(p);
+	        Thread t1 = new Thread(p);
+	        Thread t2 = new Thread(c);
+	        Thread t3 = new Thread(c);
+	        t0.start();
+	        t1.start();
+	        t2.start();
+	        t3.start();
+	
+	    }
+	} 
+
+**多线程(JDK1.5 的新特性互斥锁)**:  
+
+* 同步  
+	* 使用 ReentrantLock 类的 lock()和 unlock()方法进行同步  
+* 通信
+	* 使用 ReentrantLock 类的 newCondition()方法可以获取 Condition 对象
+	* 需要等待的时候使用 Condition 的 await()方法, 唤醒的时候用 signal()方法
+	* 不同的线程使用不同的 Condition, 这样就能区分唤醒的时候找 哪个线程了  
+
+**Lock接口**：出现替代了同步代码块（同步函数），将同步的隐式锁操作变成了显示锁操作,同时更为灵活，可以一个锁上加多组监视器  
+
+- **lock()    获取锁**
+- **unlock()  释放锁，通常需要定义在finally代码块中**
+
+**condition接口**：出现替代了object中的wait，notify，notifyAll方法,将这些监视器方法单独进行了封装，变成了Condition监视器对象,可以和任意锁进行组合:await(),singal(),singalAll()   
+  
+  
+	class Resource6
+	{
+	    private String name;
+	    private int count = 1;
+	    private boolean flag = false;
+	    //创建一个锁对象
+	    Lock lock = new ReentrantLock();
+	    //通过已有的锁获取该锁上的监视器对象
+	    //Condition con = lock.newCondition();
+	
+	    //通过已有的锁获取两组监视器，一组监视生产者，一组监视消费者
+	    Condition pro_con = lock.newCondition();
+	    Condition con_con = lock.newCondition();
+	    public void set (String name)
+	    {
+	        lock.lock();
+	        try {
+	            while (flag)
+	            {
+	                //try { this.wait(); } catch (InterruptedException e) { }
+	                //try{con.await();}catch (InterruptedException e){}
+	                try{pro_con.await();}catch (InterruptedException e){}
+	            }
+	
+	            this.name = name + count;
+	            count++;
+	            System.out.println(Thread.currentThread().getName()+".......生产者......."+this.name);
+	            flag = true;
+	            //notifyAll();
+	            //con.signalAll();
+	            con_con.signal();
+	         }
+	         finally {
+	            lock.unlock();
+	        }
+	
+	    }
+	    public  void out()
+	    {
+	        lock.lock();
+	        try {
+	            while (!flag)
+	            {
+	                //try { this.wait(); } catch (InterruptedException e) { }
+	                //try { con.await(); }catch (InterruptedException e){}
+	                try { con_con.await(); }catch (InterruptedException e){}
+	            }
+	            System.out.println(Thread.currentThread().getName()+".......消费者......."+this.name);
+	            flag = false;
+	            //notifyAll();
+	            //con.signalAll();
+	            pro_con.signal();
+	        }
+	        finally {
+	            lock.unlock();
+	        }
+	
+	    }
+	}
+	
+	class Producer2 implements Runnable
+	{
+	    Resource6 r;
+	    Producer2(Resource6 r)
+	    {
+	        this.r = r;
+	    }
+	    public void run()
+	    {
+	        while (true)
+	        {
+	            r.set("烤鸭");
+	        }
+	
+	    }
+	
+	}
+	
+	class Consumer2 implements Runnable
+	{
+	    Resource6 r;
+	    Consumer2(Resource6 r)
+	    {
+	        this.r = r;
+	    }
+	    public void run()
+	    {
+	        while (true)
+	        {
+	            r.out();
+	        }
+	
+	    }
+	}
+	
+	
+	
+	
+	public class ThreadCommunicationDemo6{
+	    public static void main(String[] args) {
+	
+	        Resource6 r = new Resource6();
+	        Producer2 p = new Producer2(r);
+	        Consumer2 c = new Consumer2(r);
+	        Thread t0 = new Thread(p);
+	        Thread t1 = new Thread(p);
+	        Thread t2 = new Thread(c);
+	        Thread t3 = new Thread(c);
+	        t0.start();
+	        t1.start();
+	        t2.start();
+	        t3.start();
+	
+	    }
+	}  
+	
+
+**多线程(线程组的概述和使用)**:  
+
+* A:线程组概述
+	* Java 中使用 ThreadGroup 来表示线程组，它可以对一批线程进行分类管理，Java 允许程序直接对线程组进行控制。 
+	* 默认情况下，所有的线程都属于主线程组。
+
+	public final ThreadGroup getThreadGroup()//通过线程对象获取他所属于的组 
+	public final String getName()//通过线程组对象获取他组的名字
+
+	* 我们也可以给线程设置分组
+		* ThreadGroup(String name) 创建线程组对象并给其赋值名字
+		* 创建线程对象 Thread(ThreadGroup group, Runnable target, String name)
+	* 设置整组的优先级或者守护线程  
+
+* B:案例演示
+线程组的使用,默认是主线程组  
+
+		MyRunnable mr = new MyRunnable();
+		Thread t1 = new Thread(mr, "张三");
+		Thread t2 = new Thread(mr, "李四");
+		//获取线程组
+		// 线程类里面的方法:public final ThreadGroup getThreadGroup() 
+		ThreadGroup tg1 = t1.getThreadGroup();
+		ThreadGroup tg2 = t2.getThreadGroup();
+		// 线程组里面的方法:public final String getName()
+		String name1 = tg1.getName();
+		String name2 = tg2.getName();
+		System.out.println(name1);
+		System.out.println(name2);
+		// 通过结果知道了:线程默认情况下属于 main 线程组
+		// 通过下面的测试，应该能够看到，默任情况下，所有的线程都属于同一个组 
+		System.out.println(Thread.currentThread().getThreadGroup().getName());
+		* 自己设定线程组
+		// ThreadGroup(String name)
+		ThreadGroup tg = new ThreadGroup("这是一个新的组");
+		MyRunnable mr = new MyRunnable();
+		// Thread(ThreadGroup group, Runnable target, String name) 
+		Thread t1 = new Thread(tg, mr, "张三");
+		Thread t2 = new Thread(tg, mr, "李四");
+		System.out.println(t1.getThreadGroup().getName());
+		System.out.println(t2.getThreadGroup().getName());
+		//通过组名称设置后台线程，表示该组的线程都是后台线程 
+		tg.setDaemon(true);  
+		
+
+
+ 
