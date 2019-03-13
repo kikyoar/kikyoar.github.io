@@ -93,4 +93,4 @@ tags:
 	>>>'AboutAttr' object has no attribute 'not_exised'
 	>>>None
 
-上面例子里面的getattr方法根本不会被调用，因为原本的AttributeError被我们自行处理并未抛出，也没有手动调用getattr，所以访问not_existed的结果是None而不是default
+上面例子里面的getattr方法根本不会被调用，因为原本的AttributeError被我们自行处理并未抛出，也没有手动调用getattr，所以访问not\_existed的结果是None而不是default

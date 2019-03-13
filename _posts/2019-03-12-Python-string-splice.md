@@ -87,4 +87,4 @@ tags:
 		f'{x} * {x} = {power(x)}'
 		'5 * 5 = 25'
 
-	而且F-strings的运行速度很快，比%-string和str.format()这两种格式化方法都快得多  
+	**而且F-strings的运行速度很快，比%-string和str.format()这两种格式化方法都快得多**  
