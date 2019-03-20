@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "Hadoop 笔记001"
-subtitle:   "hadoop权威指南日常记录"
+title:      "Hadoop之为何不使用RAID"
+subtitle:   "Hadoop配置文件与守护进程需要多少内存"
 date:       2018-09-27
 author:     "kikyoar"
 header-img: "img/post-bg-hadoop-version.jpg"
