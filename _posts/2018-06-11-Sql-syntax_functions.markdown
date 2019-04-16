@@ -6,7 +6,7 @@ date:       2018-06-11
 author:     "kikyoar"
 header-img: "img/post-bg-linux-version.jpg"
 tags:
-    - database
+    - Database
 ---   
 
 ## sql基础语法  

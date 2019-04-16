@@ -6,7 +6,7 @@ date:       2019-04-16
 author:     "kikyoar"
 header-img: "img/post-bg-linux-version.jpg"
 tags:
-    - database
+    - Database
 ---   
 
 ## Greenplum 表空间和filespace的用法
