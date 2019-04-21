@@ -26,7 +26,7 @@ tags:
 根据报错Centos7 error: Failed to initialize NSS library，查询google上大部分给出的解决方法为：
  
 	- 1、下载[nspr(nspr-4.13.1-1.0.el7_3.x86_64.rpm)](http://mirror.centos.org/centos/7/os/x86_64/Packages/nspr-4.13.1-1.0.el7_3.x86_64.rpm)  
-	- 2、执行命令：       	
+	- 2、执行命令：         	
 			`rpm2cpio nspr-4.13.1-1.0.el7_3.x86_64.rpm | cpio –idmv`  
    - 3、执行命令：    
           `LD_PRELOAD=./usr/lib64/libnspr4.so yum update nspr`  
@@ -37,7 +37,7 @@ tags:
 - 思路二：  
 
 	由于是删除qt，python-devel-2.7.5-58.el7.x86_64，gnome-python2-canvas-2.28.1，所以感觉是文件丢失，于是查看同一批主机中的包的版本：    
-`rpm -qa | grep 相关软件名(gnome-python2、python-devel、python-rpm、python等)`
+`rpm -qa | grep 相关软件名(gnome-python2、python-devel、python-rpm、python等)`  
 然后从官方网站下载依赖包和软件执行，**此操作也无效，未解决问题**  
 
 - 思路三：  
@@ -52,7 +52,9 @@ tags:
 	- 2、以上软件包在编译中，可能会一直报其他依赖问题，比如nss缺失依赖等等现象，现场应该根据报错解决，但是此解决办法较为费时间  
 
 - 思路四：  
-根据故障机的原有安装环境，搭建虚拟机，模拟操作，现在主要是不明确在输入`rpm -e gnome-python2-canvas-2.28.1-14.el7.x86_64`中所报的依赖包报错是哪一个，而直接用—nodeps卸载了，如果明确了报错，也可以方便的找出故障点  
+根据故障机的原有安装环境，搭建虚拟机，模拟操作，现在主要是不明确在输入  
+`rpm -e gnome-python2-canvas-2.28.1-14.el7.x86_64`    
+中所报的依赖包报错是哪一个，而直接用—nodeps卸载了，如果明确了报错，也可以方便的找出故障点  
 
 ### 最终解决办法：
 据现场同学提供的思路，以下为解决办法：  
@@ -71,7 +73,7 @@ tags:
 再在故障机目录/usr/lib64/上查看是否存在libsqlite3.so，发现并未存在：  
 
 - 1、下载sqlite-3.7.17-8.el7.x86_64
-- 2、rpm2cpio sqlite-3.7.17-8.el7.x86_64.rpm | cpio –idmv
+- 2、**rpm2cpio sqlite-3.7.17-8.el7.x86_64.rpm \| cpio –idmv**
 - 3、cp  -R  usr/   /
 - 4、第三步也可以用  
 
