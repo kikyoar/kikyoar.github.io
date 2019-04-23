@@ -140,5 +140,5 @@ linux用很多可用的工具可以用来发现排错，有些很容易使用，
 		 Filesystem 1K-blocks Used Available Use% Mounted on
 		 /dev/mapper/workstation-root 7667140 2628608 4653920 37% /  
 		 
- 从df的输出我们可以判断出/tmp是根目录下的一部份  
+   从df的输出我们可以判断出/tmp是根目录下的一部份  
 
