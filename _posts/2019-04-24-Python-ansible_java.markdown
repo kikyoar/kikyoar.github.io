@@ -1,10 +1,13 @@
+---
 layout:     post
 title:      "使用Ansible自动配置JDK环境"
 subtitle:   "Ansible roles的应用实践"
 date:       2019-04-24
 author:     "kikyoar"
 header-img: "img/post-bg-python-version.jp"
-tags:   - Python
+tags:   
+    - Python
+--- 
 
 [源代码放置于Github](<https://github.com/kikyoar/Hadoop-Automated-scripts>)
 
@@ -13,22 +16,22 @@ tags:   - Python
 >
 > 源码目录树为：
 >
-> .
-> ├── defaults
-> │   └── java_roles.yaml
-> ├── files
-> ├── handlers
-> ├── readme.md
-> ├── tasks
-> │   ├── check.yaml
-> │   ├── ln_jdk.yaml
-> │   ├── main.yaml
-> │   ├── set_var.yaml
-> │   ├── unarchive_jdk.yaml
-> │   └── uninstall_openjdk.yaml
-> ├── templetes
-> └── vars
->     └── main.yaml
+	 .
+	 ├── defaults
+	 │   └── java_roles.yaml
+	 ├── files
+	 ├── handlers
+	 ├── readme.md
+	 ├── tasks
+	 │   ├── check.yaml
+	 │   ├── ln_jdk.yaml
+	 │   ├── main.yaml
+	 │   ├── set_var.yaml
+	 │   ├── unarchive_jdk.yaml
+	 │   └── uninstall_openjdk.yaml
+	 ├── templetes
+	 └── vars
+	     └── main.yaml
 
 ## 所需软件
 
@@ -55,23 +58,27 @@ tags:   - Python
 
 - 将需要安装java的主机IP地址填写于hosts文件required_java下
 
+  ```yaml
   [required_java]
-  	192.168.6.62
+  192.168.6.62
+  ```
 
 - 此压缩包中已自带java(jdk-8u181-linux-x64.tar.gz)--由于文件太大未上传（雾）,如果有新的java版本需求，请上传至files目录下替换该文件，然后修改vars目录下main.yaml中的value值
 
+  ```yaml
   java_packages: jdk-8u181-linux-x64.tar.gz
-  	java_install_name: jdk1.8.0_181
+  java_install_name: jdk1.8.0_181
+  ```
 
 - 将defaults目录下的java_roles.yaml拷贝至/etc/ansible/目录下
 
 - 在/etc/ansible/执行命令，如若未发生报错，执行下一步
 
-  [root@ceshi-1 ansible]# ansible-playbook -C java_roles.yaml
+  [[root@ceshi-1 ansible]# ansible-playbook -C java_roles.yaml]()
 
 - 在/etc/ansible/执行命令
 
-  [root@ceshi-1 ansible]# ansible-playbook java_roles.yaml
+  [[root@ceshi-1 ansible]# ansible-playbook java_roles.yaml]()
 
 - 以上安装完成
 
