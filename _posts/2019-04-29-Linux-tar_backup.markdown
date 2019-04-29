@@ -68,8 +68,7 @@ tags:
 	tar xvf jfedu.tar.gz ：解压 jfedu.tar.gz  程序包
 	tar czvf jfedu.tar.gz jfedu ：使用 gzip 格式打包并压缩 jfedu 目录
 	tar cjvf jfedu.tar.bz2 jfedu ：使用 bzip2 格式打包并压缩 jfedu 目录
-	tar czf jfedu.tar.gz * －X list.txt ：使用 gzip 格式打包并压当前目录所有文件，排除
-	list.txt 中记录的文件
+	tar czf jfedu.tar.gz * －X list.txt ：使用 gzip 格式打包并压当前目录所有文件，排除list.txt 中记录的文件
 	tar czf jfedu.tar.gz * －-e xclude=zabbix 3.2.4.tar.gz --exclude=nginx-1.12.0.tar.gz ：使用 gzip 格式打包并压缩所有文件和目录，排除 zabbix-3.2.4.tar.gz nginx-1.12.0.tar.gz 软件包
 	
 	
